@@ -1,0 +1,19 @@
+schema: BT2_PROJECT_V1
+project_key: lantern
+name: Project Lantern
+status: structure_initialization
+coordinator: One
+repository: thebrazenbeard/build-team-2.0
+root_path: projects/lantern
+board_project_key: lantern
+knowledge_path: projects/lantern/shared/knowledge
+ideas_path: projects/lantern/shared/ideas
+workstreams_path: projects/lantern/workstreams
+reviews_path: projects/lantern/reviews
+artifacts_path: projects/lantern/artifacts
+archive_path: projects/lantern/archive
+created_at: 2026-08-04T09:14:00-04:00
+assignment_state: none
+scheduled_automation_authority: user_only
+merge_authority: user_only
+production_mutation_authority: user_only
