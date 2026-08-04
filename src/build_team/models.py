@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -51,7 +51,7 @@ class MemoryEvent(BaseModel):
     source_facets: list[FacetName] = Field(default_factory=list)
     authority_class: str
     provenance: dict[str, Any] = Field(default_factory=dict)
-    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
 
 class HivemindSnapshot(BaseModel):
@@ -65,7 +65,7 @@ class HivemindSnapshot(BaseModel):
     shared_memory: list[MemoryEvent] = Field(default_factory=list)
     shared_state: dict[str, Any] = Field(default_factory=dict)
     approval_gates: list[str] = Field(default_factory=list)
-    observed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    observed_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
     def canonical_json(self) -> str:
         return json.dumps(
@@ -94,7 +94,7 @@ class Perspective(BaseModel):
     confidence: float = Field(ge=0.0, le=1.0)
 
     @model_validator(mode="after")
-    def analysis_facet_only(self) -> "Perspective":
+    def analysis_facet_only(self) -> Perspective:
         if self.facet == "One":
             raise ValueError("One synthesizes; One does not emit an analysis perspective")
         return self
