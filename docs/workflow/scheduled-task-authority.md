@@ -68,3 +68,4 @@ No BT2 role, including One, may waive this policy. Only a later explicit user in
 - Authority class: `DIRECT_USER_INSTRUCTION`
 - Supabase operation: `bt2-user-directive-scheduled-task-user-only-gate-20260804`
 - Assignment: `BT2-SYS-ONE-SCHEDULED-TASK-GATE-001`
+- Initial policy commit: `7e90d81a3bb4feebe786ba572c79df293b82e4dd`
