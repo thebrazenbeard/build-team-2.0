@@ -16,7 +16,7 @@ Repository paths, file moves, frontmatter, indexes, pull-request metadata, memor
 
 Chats use pull discovery. A chat checks its addressed board state when opened or explicitly told to check the project. A closed chat is not presumed to poll, receive, consume, or act on a dispatch.
 
-I coordinate assignments, dependency routing, review waves, writer leases, status reconciliation, and closure. Other facets recommend work and execute exact assignments; they do not create authority by assertion.
+The Coordinator owns assignment dispatch, dependency routing, review waves, writer leases, status reconciliation, and closure. Other facets recommend work and execute exact assignments; they do not create authority by assertion.
 
 ## 2. Minimal project workspace
 
@@ -228,7 +228,7 @@ Review follows material risk rather than ceremonial full-team inclusion.
 - independent validation: Nine;
 - adversarial dissent and authority ambiguity: Thirteen.
 
-One synthesizes the results and preserves unresolved dissent. The builder’s tests are evidence, not independent validation. Reviews bind one immutable head or artifact digest; a later change requires a new review.
+The Coordinator synthesizes the results and preserves unresolved dissent. The builder’s tests are evidence, not independent validation. Reviews bind one immutable head or artifact digest; a later change requires a new review.
 
 ## 9. GitHub workflow
 
