@@ -37,14 +37,21 @@ def _record_dependencies(record: RecordEnvelope) -> set[str]:
     payload = record.payload
     if record.record_type == "Link":
         dependencies.update(
-            value
-            for value in (payload.get("source_record_id"), payload.get("target_record_id"))
+            value for value in (payload.get("source_record_id"), payload.get("target_record_id"))
             if isinstance(value, str)
         )
     elif record.record_type == "StateEvent":
         subject = payload.get("subject_record_id")
         if isinstance(subject, str):
             dependencies.add(subject)
+    elif record.record_type == "Assessment":
+        claim = payload.get("claim_id")
+        if isinstance(claim, str):
+            dependencies.add(claim)
+    elif record.record_type == "Decision":
+        evidence = payload.get("evidence", [])
+        if isinstance(evidence, list):
+            dependencies.update(item for item in evidence if isinstance(item, str))
     return dependencies
 
 
@@ -72,7 +79,7 @@ def _topological_records(records: list[RecordEnvelope]) -> list[RecordEnvelope]:
             if dependency in by_id:
                 indegree[record.record_id] += 1
                 children[dependency].append(record.record_id)
-    queue = deque(sorted((record_id for record_id, degree in indegree.items() if degree == 0)))
+    queue = deque(sorted(record_id for record_id, degree in indegree.items() if degree == 0))
     ordered: list[RecordEnvelope] = []
     while queue:
         record_id = queue.popleft()
