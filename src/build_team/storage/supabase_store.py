@@ -15,7 +15,7 @@ class SupabaseSharedStore:
         self._client = client
 
     @classmethod
-    def from_env(cls) -> "SupabaseSharedStore":
+    def from_env(cls) -> SupabaseSharedStore:
         url = os.environ["SUPABASE_URL"]
         key = os.environ["SUPABASE_SECRET_KEY"]
         return cls(create_client(url, key))
