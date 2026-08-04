@@ -1,10 +1,10 @@
-# Project Lantern Foundation Brief v2
+# Project Lantern Foundation Brief v2.1
 
-Status: `DRAFT_FOR_TWO_RECHALLENGE`
+Status: `DRAFT_FOR_TWO_FINAL_RECHALLENGE`
 Owner: One
 Project key: `lantern`
-Supersedes: Foundation Brief v1 at `aecc8a6b30b41afa8379fb63a4f3c4820608e42d`
-Challenge basis: Supabase event `76`
+Supersedes: Foundation Brief v2 at `8ff1e58bd1787ff94139490f3ab0c52837eed729`
+Challenge basis: Supabase events `76`, `81`, and `82`
 
 ## Thesis
 
@@ -21,7 +21,9 @@ Lantern should be a local-first project-intelligence system that lets an operato
 7. what remains unknown;
 8. whether another installation can reproduce the same records and query results.
 
-Lantern earns the right to exist only if it makes those answers materially easier or more accurate than a disciplined Git-and-Markdown control workflow after entry cost is included.
+Lantern does not determine global truth or one universal project belief. It returns current active assessments for named actors and scopes while preserving disputed, superseded, rejected, and unassessed claims.
+
+Lantern earns the right to exist only if it makes those answers materially easier or more accurate than a disciplined Git-and-Markdown control workflow after entry and capture cost are included.
 
 ## Intended user and first use cases
 
@@ -30,14 +32,14 @@ The primary v1 user is one technical operator, researcher, investigator, or proj
 The first use cases are:
 
 - observe a source without promoting its contents into truth;
-- distinguish a source identity from the exact bytes or state observed at a particular time;
+- distinguish a source locator from the exact bytes or version observed;
 - record immutable claims;
-- record actor-and-scope-specific assessments of claims;
-- link support, opposition, assumptions, constraints, and dependencies explicitly;
-- preserve contradiction without manufacturing compromise;
+- record actor-and-scope-specific assessments;
+- link support, opposition, contradiction, supersession, and dependency explicitly;
+- preserve disagreement without manufacturing compromise;
 - record decisions with evidence, assumptions, alternatives, authority, and status;
-- mark directly affected claims and decisions `REVIEW_REQUIRED` when their basis changes, without automatically declaring them false;
-- export and re-import a portable, inspectable project capsule without overwriting divergent records.
+- mark directly affected records `REVIEW_REQUIRED` when their declared basis changes, without automatically declaring them false;
+- export and re-import a portable project capsule without overwriting divergent records.
 
 Multi-user collaboration, semantic extraction, model assistance, and cloud synchronization are not required to prove the core value.
 
@@ -47,12 +49,13 @@ The first usable version is a local command-line application operating on one po
 
 The seeded test project contains:
 
-- two observed versions of one source;
-- three claims, including one explicit contradiction;
-- scoped assessments for one operator and project context;
-- one decision that depends on a claim supported by the superseded source observation.
+- one source observed at version A;
+- the same source later observed at version B, superseding A;
+- three claims, including one opposed pair and one explicit contradiction;
+- one assessment for a named actor and project scope;
+- one decision explicitly dependent on a claim supported by version A.
 
-The minimum operations are:
+Minimum commands:
 
 ```text
 lantern init
@@ -71,58 +74,135 @@ The slice succeeds only when it can:
 
 1. preserve both source observations and their custody status;
 2. preserve all claims and assessments separately;
-3. display the contradiction without resolving it automatically;
-4. mark the directly dependent decision `REVIEW_REQUIRED` with an attributable reason;
-5. export the project;
-6. import it into a clean directory;
-7. reproduce the same record identities, links, lifecycle states, and query answers.
+3. show opposed and contradictory claims without resolving them automatically;
+4. resolve exactly one current assessment for the selected actor, scope, and claim;
+5. mark only the directly dependent assessment or decision `REVIEW_REQUIRED` after version B supersedes A;
+6. export the project;
+7. import it into a clean directory;
+8. reproduce identical record IDs, digests, links, current-state views, and query answers.
 
 No model call, network access, background worker, scheduler, or autonomous external action is required.
 
-## Six core concepts
+## Project container metadata
 
-Lantern v1 uses only these top-level concepts unless a required query cannot be expressed cleanly:
+`ProjectManifest` is project-container metadata, not a domain entity. It records:
 
-1. **ProjectManifest**
-   - project identity;
-   - schema and interchange versions;
-   - creation metadata;
-   - declared custody and export policy.
+- `project_id`;
+- schema and interchange versions;
+- creation metadata;
+- project-root-relative path rules;
+- declared custody and export policy;
+- required tool or format compatibility.
 
-2. **SourceSnapshot**
-   - source identity and locator;
-   - observation time and retrieval route;
-   - digest and media type when available;
-   - custody mode: `REFERENCE_ONLY`, `CAPTURED`, `EMBEDDED`, `REDACTED`, or `UNAVAILABLE`;
-   - optional content-addressed retained bytes;
-   - explicit omission reason when bytes are not exported.
+Absolute paths, path traversal, ambiguous separators, and non-POSIX project-relative paths are rejected.
 
-3. **Claim**
-   - immutable attributable statement;
-   - epistemic class and subject scope;
-   - no global truth or current-belief field.
+## Six durable record types
 
-4. **Assessment**
-   - assessor;
-   - project, decision, or inquiry scope;
-   - disposition: `ACCEPTED`, `DISPUTED`, `REJECTED`, or `UNVERIFIED`;
-   - basis links;
-   - effective bounds and supersession.
+Lantern v1 uses six durable record types. Their payloads are immutable.
 
-5. **Decision**
-   - chosen action or conclusion;
-   - actor and authority;
-   - evidence, assumptions, alternatives, and dependencies;
-   - lifecycle including `ACTIVE`, `REVIEW_REQUIRED`, `REVISED`, and `SUPERSEDED`.
+### 1. SourceSnapshot
 
-6. **LinkEvent**
-   - typed relationship or event connecting records;
-   - initial link vocabulary: `SUPPORTS`, `OPPOSES`, `CONTEXTUALIZES`, `ASSUMES`, `CONSTRAINS`, `DEPENDS_ON`, `CONTRADICTS`, and `SUPERSEDES`;
-   - verification receipts and lifecycle transitions are event subtypes rather than new top-level entities.
+Records what source material was actually observed:
 
-Temporal fields belong to the canonical record envelope. Contradiction and supersession are typed links or events, not separate systems demanding their own miniature governments.
+- source identity and locator;
+- observed version or state;
+- observation time and retrieval route;
+- digest and media type when available;
+- custody mode: `REFERENCE_ONLY`, `CAPTURED`, `EMBEDDED`, `REDACTED`, or `UNAVAILABLE`;
+- optional content-addressed retained bytes;
+- explicit omission reason when bytes are not retained or exported.
 
-## Canonical record envelope
+A locator says where material may be found. A SourceSnapshot says what was actually observed.
+
+### 2. Claim
+
+An immutable attributable statement containing:
+
+- subject and statement;
+- actor or source attribution;
+- epistemic class;
+- subject scope;
+- provenance.
+
+A Claim has no global truth field and no mutable current-belief field.
+
+### 3. Assessment
+
+An actor-and-scope-specific disposition of one claim:
+
+- `claim_id`;
+- `assessor_id`;
+- `scope_id`;
+- disposition: `ACCEPTED`, `DISPUTED`, `REJECTED`, or `UNVERIFIED`;
+- basis links;
+- effective bounds;
+- predecessor assessment when revised.
+
+The assessment key is:
+
+```text
+claim_id + assessor_id + scope_id
+```
+
+At most one Assessment is current for that key. A successor Assessment must reference and supersede the expected current Assessment. A stale predecessor, concurrent successor, or second active Assessment returns `CONFLICT`. Current assessment state is derived from the immutable chain.
+
+### 4. Decision
+
+An immutable decision version containing:
+
+- chosen action or conclusion;
+- actor and authority;
+- evidence and assumptions;
+- rejected alternatives;
+- explicit dependency links;
+- disposition at creation.
+
+A revision or lifecycle change creates a successor Decision or Event. The prior Decision is never updated in place.
+
+### 5. Link
+
+A durable typed relationship between compatible records.
+
+Closed initial vocabulary:
+
+- `SUPPORTS`: SourceSnapshot, Claim, or Assessment to Claim or Assessment;
+- `OPPOSES`: SourceSnapshot, Claim, or Assessment to Claim or Assessment;
+- `CONTRADICTS`: Claim to Claim;
+- `CONTEXTUALIZES`: compatible record to compatible record;
+- `ASSUMES`: Decision or Assessment to Claim;
+- `CONSTRAINS`: Claim or SourceSnapshot to Decision or Assessment;
+- `DEPENDS_ON`: Assessment or Decision to SourceSnapshot, Claim, Assessment, or Decision;
+- `SUPERSEDES`: compatible record type to an earlier record of the same semantic lineage.
+
+`DEPENDS_ON` insertion must detect and report cycles. It may not silently create a cyclic dependency graph. Relation endpoints are type-checked.
+
+### 6. Event
+
+An immutable occurrence or verification record, separate from Link. Event types include:
+
+- lifecycle transition;
+- `REVIEW_REQUIRED` trigger;
+- import or export receipt;
+- verification result;
+- conflict result;
+- source observation result.
+
+An Event references the affected record, predecessor state or expected revision when applicable, actor, cause, and evidence. Current lifecycle state is derived from valid successor Events and records.
+
+## Immutable state and transition rule
+
+SourceSnapshot, Claim, Assessment, Decision, Link, and Event payloads are immutable.
+
+No durable record is updated in place. Every disposition, lifecycle, or revision change is represented by either:
+
+1. a successor record bound to the prior record ID and expected revision; or
+2. an Event bound to the affected record, predecessor state, expected revision, actor, and cause.
+
+A stale predecessor, stale expected revision, invalid transition, or competing successor fails as `CONFLICT`.
+
+Current state is a deterministic derived view over immutable records and Events. Append-only storage therefore does not mean append-randomly-and-hope. It means history survives while current state remains unambiguous.
+
+## Canonical record envelope and identity
 
 Every durable record uses a versioned envelope containing:
 
@@ -135,101 +215,117 @@ Every durable record uses a versioned envelope containing:
 - `created_at`;
 - `observed_at` when applicable;
 - provenance;
-- lifecycle;
-- `supersedes` when applicable;
+- predecessor record or expected revision when applicable;
 - `payload_sha256`.
 
-Before Three builds, Lantern must freeze:
+Identity rules:
 
-- canonical UTF-8 JSON serialization with sorted keys;
-- normalized UTC timestamps;
-- duplicate-key rejection;
-- finite JSON values only;
-- normalized repository-relative paths where paths appear;
-- deterministic record-ID derivation or generation rules;
-- import results: `VERIFIED`, `CREATED`, `CONFLICT`, or `SKIPPED`;
-- no overwrite of divergent records.
+- `project_id` and `record_id` are UUIDv7 values assigned once;
+- IDs are preserved unchanged across export and import;
+- UUID ordering bits are not evidence of event or observation time;
+- `payload_sha256` is SHA-256 over canonical payload bytes;
+- canonical payload bytes use UTF-8 JSON with sorted keys, normalized UTC timestamps, duplicate-key rejection, finite JSON values only, and project-root-relative POSIX paths;
+- same `record_id` plus same digest is `VERIFIED`;
+- same `record_id` plus different digest is `CONFLICT`;
+- unsupported schema versions fail closed;
+- divergent records are never overwritten.
 
-SQLite file bytes are not the portability contract. Canonical records and the manifest are.
+Import outcomes are exactly:
 
-## Source observation and custody
+- `VERIFIED`;
+- `CREATED`;
+- `CONFLICT`;
+- `SKIPPED`.
 
-A source locator identifies where material may be found. A source snapshot records what was actually observed.
+## Source custody and export boundary
 
-Every observation records:
+Captured source bytes are stored content-addressably under `sources/` when policy permits. Reference-only or prohibited material is not copied merely to satisfy architectural vanity.
 
-- locator and source identity;
-- observation time;
-- retrieval route;
-- digest where bytes are available;
-- media type;
-- custody mode;
-- retention or omission status.
+Every export declares:
 
-Captured source bytes are stored content-addressably under the project directory when policy permits. Exports must identify every absent, redacted, or unavailable source and why it is missing. Lantern must not silently imply reproducibility when the underlying evidence was never retained.
+- included source snapshots;
+- retained content digests;
+- omitted, redacted, unavailable, or reference-only content;
+- the reason for each omission;
+- whether exact evidence reconstruction is possible.
 
-## Review-required propagation
+Lantern must not claim reproducibility when the underlying evidence was never retained.
+
+## Review-required semantics
 
 Changed evidence does not automatically make a conclusion false.
 
-When an active SourceSnapshot, Claim, Assessment, or Decision is superseded or contradicted:
+When a SourceSnapshot, Claim, Assessment, or Decision is superseded or materially contradicted:
 
-1. directly linked active dependents receive `REVIEW_REQUIRED`;
-2. the transition records the triggering record and link;
-3. recursive dependency traversal is available as a query;
-4. no recursive automatic rejection occurs;
-5. only an explicit actor assessment or decision revision changes substantive disposition.
-
-This keeps Lantern from becoming an automated certainty machine, a product category humanity has already overfunded.
+1. only explicitly linked active dependents are considered;
+2. each directly affected dependent receives an immutable `REVIEW_REQUIRED` Event with the triggering record and Link;
+3. no durable dependent record is modified in place;
+4. recursive dependency traversal is available as a query;
+5. no recursive automatic rejection or truth revision occurs;
+6. only an explicit successor Assessment or Decision changes substantive disposition.
 
 ## Architecture decision for v1
 
-Lantern v1 uses:
+Lantern v1 targets:
 
 - one local process;
-- SQLite as the canonical operational store;
-- append-only immutable record rows;
+- SQLite as the default operational implementation;
+- immutable append-preserved record rows;
 - explicit transactions and foreign-key validation;
-- derived views for status and decision tracing;
-- canonical JSON or NDJSON plus a manifest as the portable interchange format;
-- a content-addressed `sources/` directory for retained source bytes;
-- a stable machine-readable CLI response envelope with human-readable rendering layered above it.
+- crash-safe commits;
+- deterministic derived views;
+- schema migration support;
+- canonical JSON or NDJSON plus a manifest as the portability contract;
+- a content-addressed `sources/` directory;
+- a stable machine-readable CLI response envelope with human-readable rendering above it.
+
+SQLite is the default v1 hypothesis, not the identity of the project format. If a bounded implementation spike proves SQLite cannot meet the frozen properties, One and Two must revise the architecture before Three continues. Three may not silently substitute a graph database, cloud store, custom event service, or pure Markdown persistence.
 
 Stable interfaces required before implementation:
 
 1. project directory and manifest layout;
 2. canonical record envelope and serialization;
-3. source custody modes;
-4. closed initial record and link vocabulary;
-5. import/export classifications and conflict behavior;
-6. deterministic `REVIEW_REQUIRED` rules;
-7. CLI response envelope and exit classes.
+3. SourceSnapshot custody contract;
+4. Claim and Assessment vocabulary;
+5. Assessment current-state and conflict rule;
+6. Link endpoint and cycle rules;
+7. Event transition and expected-revision rule;
+8. Decision trace fields;
+9. import/export classifications;
+10. CLI response envelope and exit classes;
+11. benchmark fixture, expected answers, procedure, and pass rule.
 
-No plugin system, API server, web interface, general knowledge graph, model layer, or cloud service belongs in the first slice.
+## Pre-registered control comparison
 
-## Executable control comparison
+Lantern must be tested against a supplied disciplined Git-and-Markdown workflow using the same seeded project, same operator questions, and same starting evidence.
 
-Lantern must be tested against a supplied disciplined Git-and-Markdown workflow using the same seeded project and the same operator questions:
+Questions:
 
 1. Which claim is currently accepted for the selected actor and scope?
-2. What evidence contradicts it?
+2. What evidence opposes or contradicts it?
 3. Why was the decision made?
-4. Which dependency now requires review?
+4. Which direct dependency now requires review?
 5. Can another operator reconstruct the same state from the handoff?
 
-Measure:
+Hard gates across every run:
 
-- completion time;
-- unsupported or incorrect answers;
-- omitted provenance;
-- missed contradiction or stale dependency;
-- files or records inspected;
-- data-entry and capture overhead;
-- successful portable reconstruction.
+- zero unsupported answers;
+- zero missed contradiction;
+- zero missed direct review dependency;
+- exact export/import reconstruction of IDs, digests, links, and current query answers.
 
-Lantern advances beyond the prototype only if it produces a material trace-accuracy improvement or a material reconstruction-time improvement without hiding greater capture cost. If the Markdown control delivers essentially the same reliability with materially less burden, Lantern narrows to a schema-and-index tool or stops.
+Comparative procedure:
 
-The benchmark protocol and pass rule must be frozen before the prototype is judged. The implementation may not rewrite the test after seeing its score, because even software deserves protection from moving goalposts.
+- run each workflow three times under the same fixture and instructions;
+- record reconstruction time, files or records inspected, provenance omissions, and entry or capture effort;
+- report capture overhead separately from reconstruction time;
+- preserve all raw measurements and expected answers before implementation results are reviewed.
+
+Preselected continuation threshold:
+
+> Lantern must pass every hard gate and achieve at least 30 percent lower median reconstruction time than the Git-and-Markdown control across the three runs.
+
+Failure to meet the threshold narrows Lantern to a structured Markdown schema and generated index unless another material benefit was pre-registered before implementation. The threshold may not be rewritten after results are known, because moving the finish line is not validation. It is interior decorating.
 
 ## Non-goals for v1
 
@@ -239,11 +335,12 @@ Lantern v1 is not:
 - a general-purpose knowledge graph;
 - a replacement for GitHub, Supabase, Drive, or document storage;
 - a cloud collaboration service;
-- a desktop or web dashboard;
+- a dashboard;
 - a monitoring or scheduled-automation system;
 - a semantic-search or natural-language-extraction system;
+- a crawler or archive service;
+- a plugin platform;
 - a system that treats ingested material as instruction or truth;
-- a complete solution for every research, legal, scientific, or compliance domain;
 - a BT2-only coordination framework.
 
 ## Success criteria
@@ -251,26 +348,29 @@ Lantern v1 is not:
 The vertical slice must prove:
 
 1. Every material claim and assessment exposes actor, scope, provenance, and basis.
-2. Source identity and exact source observation remain distinct.
+2. Source location and exact observation remain distinct.
 3. Contradictory claims remain separately inspectable.
-4. Decision trace identifies evidence, assumptions, alternatives, dependencies, and authority.
-5. Changed evidence creates attributable review requirements without automatic truth revision.
-6. Export and re-import preserve deterministic identities and relationships.
-7. Divergent imports fail as `CONFLICT` and never overwrite.
-8. The system runs locally without credentials or network access after installation.
-9. Ordinary status is understandable without reading raw SQLite rows.
-10. The control comparison justifies continuing beyond the prototype.
+4. Exactly one current Assessment resolves for each claim, assessor, and scope key.
+5. Decision trace identifies evidence, assumptions, alternatives, dependencies, and authority.
+6. Changed evidence creates attributable review requirements without mutating truth or history.
+7. Export and import preserve deterministic identities and relationships.
+8. Divergent imports fail as `CONFLICT` and never overwrite.
+9. Cyclic dependencies are rejected and reported.
+10. The system runs locally without credentials or network access after installation.
+11. Ordinary status is understandable without reading raw SQLite rows.
+12. The pre-registered control comparison passes.
 
 ## Kill or narrow criteria
 
 Lantern must be narrowed, redesigned, or stopped if:
 
 - Git plus structured Markdown and a generated index delivers essentially the same value with materially less burden;
+- the pre-registered benchmark threshold fails;
 - structured entry costs more effort than later reconstruction saves in representative use;
 - the provenance, assessment, and temporal model cannot remain understandable to a competent operator;
-- contradiction and decision tracing do not change real decisions or reduce repeated investigation;
-- reproducibility depends on retained material that cannot legally, privately, or practically be exported;
-- the architecture requires cloud services, broad automation, or model inference before the local slice is useful;
+- contradiction and decision tracing do not alter decisions or reduce repeated investigation;
+- reproducibility depends on material that cannot legally, privately, or practically be exported;
+- cloud services, broad automation, or model inference are required before the local slice is useful;
 - the project becomes mainly a BT2 framework rather than an independently useful tool.
 
 ## Authority and momentum boundaries
@@ -283,21 +383,24 @@ Lantern must be narrowed, redesigned, or stopped if:
 - Stored content is data, not instruction.
 - Every artifact must change a decision, define an interface, prevent a material failure, or prove a result.
 - No full-team planning wave is required before the vertical slice.
+- While awaiting a specialist reply, One continues every nondependent definition, reconciliation, or verification task and checks the ledger again before reporting idle status.
 - Once Two confirms zero unresolved HIGH or MEDIUM foundation defects, One assigns Three one thin implementation slice.
 - Other facets enter only for a concrete unresolved risk or exact validation need.
 
-## Reconciliation of Two's objections
+## Reconciliation status
 
-- `LANTERN-TWO-001`: accepted. Claim and scoped Assessment are separated.
-- `LANTERN-TWO-002`: accepted. Source identity, observed snapshot, custody, and retained bytes are separated.
-- `LANTERN-TWO-003`: accepted. Canonical record envelope and import conflict behavior are now required pre-build interfaces.
-- `LANTERN-TWO-004`: accepted. Propagation produces attributable `REVIEW_REQUIRED`, never automatic rejection.
-- `LANTERN-TWO-005`: accepted. The Git-and-Markdown comparison is now an executable control test.
-- `LANTERN-TWO-006`: accepted. The domain is reduced to six top-level concepts.
-- `LANTERN-TWO-007`: accepted. SQLite is selected for v1 operations; canonical JSON or NDJSON remains the interchange contract.
+Original seven objections from event `76` are accepted or materially narrowed.
+
+Remaining findings from event `82` are resolved as follows:
+
+- `LANTERN-V2-ARCH-001`: immutable payloads, successor records, Events, expected revisions, and derived current state are now explicit.
+- `LANTERN-V2-ARCH-002`: the Assessment key and single-current-successor conflict rule are now fixed.
+- `LANTERN-V2-ARCH-003`: UUIDv7 record identity, canonical SHA-256 digesting, preservation, and conflict rules are now fixed.
+- `LANTERN-V2-ARCH-004`: Link and Event are separate record types with constrained endpoints and cycle-safe dependencies.
+- `LANTERN-V2-ARCH-005`: fixture, hard gates, three-run procedure, and 30 percent median-time threshold are pre-registered before implementation.
 
 ## Immediate next gate
 
-Two re-challenges this exact revision and reports only remaining material HIGH or MEDIUM issues. One resolves any remaining defect directly. Once none remain, Three receives one bounded vertical-slice assignment.
+Two reviews this exact revision and reports only remaining material HIGH or MEDIUM issues. Previous verdicts remain historical and do not transfer automatically.
 
-No wider Lantern workflow is authorized before that gate clears.
+No implementation assignment is authorized until that exact-head challenge returns zero unresolved HIGH and MEDIUM defects.
