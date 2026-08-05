@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import statistics
 from pathlib import Path
 from typing import Any
@@ -8,6 +7,7 @@ from typing import Any
 from .canonical import canonical_json_bytes, normalize_relative_posix_path, sha256_hex, strict_json_loads
 from ._store_types import ValidationError
 
+_EXPECTED_FREEZE_RECEIPT_SHA256 = "ad3d6df9cb416957e818e5a91a3aac33f622a1d390887cf20a04e5069646112c"
 _FREEZE_KEYS = {"artifact_set_sha256", "artifacts", "fixture_id", "limitation", "pass_rule_sha256", "schema", "status"}
 _ARTIFACT_KEYS = {"path", "sha256", "size"}
 
@@ -63,16 +63,21 @@ def _verify_freeze(contract_bytes: bytes, contract: dict[str, Any], freeze_path:
     pass_rule = sha256_hex(canonical_json_bytes(contract))
     if pass_rule != freeze.get("pass_rule_sha256"):
         raise ValidationError("Frozen pass-rule digest mismatch")
-    # Freeze JSON itself is not an artifact in its own artifact set, but its supplied bytes are bound in the result.
     if canonical_json_bytes(freeze) + b"\n" != freeze_bytes:
         raise ValidationError("Freeze receipt must use canonical JSON plus one newline")
 
 
 def score_benchmark(*, contract_path: str | Path, measurements_path: str | Path,
                     freeze_receipt_path: str | Path, output_path: str | Path | None = None) -> dict[str, Any]:
+    freeze_bytes = Path(freeze_receipt_path).read_bytes()
+    if sha256_hex(freeze_bytes) != _EXPECTED_FREEZE_RECEIPT_SHA256:
+        raise ValidationError("Freeze receipt does not match the immutable trust anchor")
+    freeze_value = strict_json_loads(freeze_bytes)
+    if not isinstance(freeze_value, dict):
+        raise ValidationError("Freeze receipt must be a JSON object")
+    freeze = freeze_value
     contract_bytes, contract = _load_json_bytes(contract_path, "Scoring contract")
     measurements_bytes, measurements = _load_json_bytes(measurements_path, "Measurements")
-    freeze_bytes, freeze = _load_json_bytes(freeze_receipt_path, "Freeze receipt")
     if contract.get("schema") != "LANTERN_BENCHMARK_SCORING_CONTRACT_V1":
         raise ValidationError("Unsupported benchmark scoring contract")
     if measurements.get("schema") != "LANTERN_BENCHMARK_MEASUREMENTS_V1":

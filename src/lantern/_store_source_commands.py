@@ -10,6 +10,20 @@ from ._store_types import ConflictError, OperationResult
 
 
 class SourceCommandsMixin:
+    def _commit_source_blob(self, *, operation_id: str, digest: str, content: bytes) -> None:
+        file_op = stage_source_blobs(self.root, operation_id, {digest: content})
+        try:
+            with self.transaction():
+                file_op.promote()
+                self._connection.execute(
+                    "insert or ignore into file_operations(operation_id,status,committed_at) values (?,?,?)",
+                    (operation_id, "COMMITTED", datetime.now(UTC).isoformat().replace("+00:00", "Z")),
+                )
+        except Exception:
+            file_op.rollback_files()
+            raise
+        file_op.cleanup_after_success()
+
     def observe_source(self, *, actor_id: str, source_key: str, locator: str,
                        retrieval_route: str, media_type: str, custody_mode: str,
                        retention_status: str, observed_at: str, content: bytes | None = None,
@@ -29,6 +43,16 @@ class SourceCommandsMixin:
         validate_record_semantics(record, self._lookup_record, source_content=content)
         existing = self._existing_outcome(record)
         if existing is not None:
+            if existing.outcome != "VERIFIED" or content is None or content_digest is None:
+                return existing
+            retained = self._lookup_source_blob(content_digest)
+            if retained is not None:
+                return existing
+            self._commit_source_blob(
+                operation_id=f"source-restore:{record.record_id}:{content_digest}",
+                digest=content_digest,
+                content=content,
+            )
             return existing
         if content is None:
             return self.insert_record(record)

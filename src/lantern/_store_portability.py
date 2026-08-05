@@ -44,12 +44,9 @@ class PortabilityMixin:
         source_target.mkdir(exist_ok=True)
         exported_sources: list[dict[str, Any]] = []
         for digest in sorted(referenced):
-            source = self.sources_path / digest
-            if not source.exists():
+            content = self._lookup_source_blob(digest)
+            if content is None:
                 raise ValidationError(f"Referenced source blob is missing: {digest}")
-            content = source.read_bytes()
-            if sha256_hex(content) != digest:
-                raise ValidationError(f"Source blob path does not match digest: {source}")
             (source_target / digest).write_bytes(content)
             exported_sources.append({"sha256": digest, "size": len(content)})
         manifest = {
@@ -175,7 +172,6 @@ class PortabilityMixin:
             outcomes.setdefault(record_id, "SKIPPED")
         to_create = [record for record in _topological_records(parsed) if record.record_id not in outcomes]
 
-        # Simulate lineage rules before any durable effect.
         heads = {
             (row["project_id"], row["record_type"], row["lineage_key"]): row["record_id"]
             for row in self._connection.execute("select * from lineage_heads").fetchall()
@@ -192,12 +188,24 @@ class PortabilityMixin:
                 raise ConflictError("Stale predecessor or competing successor")
             heads[key] = record.record_id
 
+        effective_ids = {record_id for record_id, outcome in outcomes.items() if outcome == "VERIFIED"}
+        effective_ids.update(record.record_id for record in to_create)
+        effective_digests = {
+            record.payload["content_sha256"]
+            for record in parsed
+            if record.record_id in effective_ids
+            and record.record_type == "SourceSnapshot"
+            and record.payload.get("custody_mode") in {"CAPTURED", "EMBEDDED"}
+        }
+        effective_source_blobs = {digest: source_blobs[digest] for digest in sorted(effective_digests)}
+
         return {
             "bundle": bundle,
             "manifest": manifest,
             "records_bytes": records_bytes,
             "parsed": parsed,
             "source_blobs": source_blobs,
+            "effective_source_blobs": effective_source_blobs,
             "outcomes": outcomes,
             "to_create": to_create,
             "operation_id": f"import:{sha256_hex(canonical_json_bytes(manifest))}:{manifest['records_sha256']}",
@@ -205,15 +213,15 @@ class PortabilityMixin:
 
     def import_bundle(self, source: str | Path) -> dict[str, Any]:
         plan = self._preflight_import(source)
-        file_op = stage_source_blobs(self.root, plan["operation_id"], plan["source_blobs"])
+        file_op = stage_source_blobs(self.root, plan["operation_id"], plan["effective_source_blobs"])
         outcomes: dict[str, str] = dict(plan["outcomes"])
         try:
             with self.transaction():
                 for record in plan["to_create"]:
                     self._insert_record_row(record)
                     outcomes[record.record_id] = "CREATED"
-                self._rebuild_projections()
                 file_op.promote()
+                self._rebuild_projections()
                 hook = getattr(self, "_import_failure_hook", None)
                 if hook is not None:
                     hook()
@@ -261,7 +269,7 @@ class PortabilityMixin:
         by_id = {record.record_id: record for record in records}
         lookup = by_id.get
         for record in _topological_records(records):
-            validate_record_semantics(record, lookup)
+            validate_record_semantics(record, lookup, source_blob_lookup=self._lookup_source_blob)
 
         self._connection.execute("delete from lineage_heads")
         self._connection.execute("delete from links")

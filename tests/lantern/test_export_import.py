@@ -66,7 +66,9 @@ def test_divergent_same_id_import_never_overwrites(seeded_store, tmp_path: Path)
     assert seeded_store.get_record(original.record_id).canonical_json == before
 
 
-def test_import_skips_records_that_depend_on_a_conflicting_id(seeded_store, tmp_path: Path) -> None:
+def test_import_skips_records_that_depend_on_a_conflicting_id_and_does_not_promote_their_blob(
+    seeded_store, tmp_path: Path
+) -> None:
     bundle = tmp_path / "bundle"
     seeded_store.export_bundle(bundle)
     source = next(
@@ -75,8 +77,11 @@ def test_import_skips_records_that_depend_on_a_conflicting_id(seeded_store, tmp_
             "select * from records where record_type='SourceSnapshot' order by created_at"
         )
     )
+    original_digest = source.payload["content_sha256"]
     target = _empty_compatible_store(tmp_path / "target", seeded_store)
     try:
+        divergent_content = b"target-local-divergent-source"
+        divergent_digest = sha256_hex(divergent_content)
         divergent = build_record(
             project_id=source.project_id,
             record_id=source.record_id,
@@ -86,13 +91,17 @@ def test_import_skips_records_that_depend_on_a_conflicting_id(seeded_store, tmp_
             observed_at=source.observed_at,
             provenance=source.provenance,
             lineage_key=source.lineage_key,
-            payload={**source.payload, "retention_status": "DIVERGENT_LOCAL_COPY"},
+            payload={**source.payload, "retention_status": "DIVERGENT_LOCAL_COPY",
+                     "content_sha256": divergent_digest},
         )
+        (target.sources_path / divergent_digest).write_bytes(divergent_content)
         assert target.insert_record(divergent).outcome == "CREATED"
         receipt = target.import_bundle(bundle)
         outcomes = {item["record_id"]: item["outcome"] for item in receipt["results"]}
         assert outcomes[source.record_id] == "CONFLICT"
         assert "SKIPPED" in outcomes.values()
+        assert not (target.sources_path / original_digest).exists()
+        assert (target.sources_path / divergent_digest).read_bytes() == divergent_content
     finally:
         target.close()
 

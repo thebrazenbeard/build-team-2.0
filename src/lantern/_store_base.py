@@ -1,18 +1,21 @@
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Self
 
-from .canonical import canonical_json, canonical_json_bytes
+from .canonical import canonical_json, sha256_hex
 from .contracts import RecordEnvelope
 from .ids import require_uuid7, uuid7
 from .validation import manifest_bytes, validate_project_manifest, validate_record_semantics
 from ._store_files import recover_file_operations
 from ._store_helpers import Transaction
 from ._store_types import ConflictError, LanternError, OperationResult, ValidationError
+
+_HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
 
 class StoreBase:
@@ -83,9 +86,13 @@ class StoreBase:
             raise LanternError(f"No Lantern store exists at {db_path}")
         connection = sqlite3.connect(db_path, isolation_level=None)
         store = cls(path, connection)
-        recover_file_operations(path, connection)
-        store.verify_manifest_consistency()
-        return store
+        try:
+            recover_file_operations(path, connection)
+            store.verify_manifest_consistency()
+            return store
+        except Exception:
+            connection.close()
+            raise
 
     def close(self) -> None:
         self._connection.close()
@@ -179,6 +186,24 @@ class StoreBase:
         row = self._connection.execute("select * from records where record_id=?", (record_id,)).fetchone()
         return self._row_to_record(row) if row is not None else None
 
+    def _lookup_source_blob(self, digest: str) -> bytes | None:
+        if not isinstance(digest, str) or not _HEX64.fullmatch(digest):
+            raise ValidationError("Source blob lookup requires a lowercase SHA-256 digest")
+        if self.sources_path.is_symlink():
+            raise ValidationError("Lantern sources directory cannot be a symlink")
+        source_root = self.sources_path.resolve(strict=True)
+        target = self.sources_path / digest
+        if target.is_symlink():
+            raise ValidationError(f"Retained source blob cannot be a symlink: {digest}")
+        if not target.exists():
+            return None
+        if not target.is_file() or target.resolve(strict=True).parent != source_root:
+            raise ValidationError(f"Retained source blob escapes sources directory: {digest}")
+        content = target.read_bytes()
+        if sha256_hex(content) != digest:
+            raise ValidationError(f"Retained source blob digest mismatch: {digest}")
+        return content
+
     def get_record(self, record_id: str) -> RecordEnvelope:
         record = self._lookup_record(record_id)
         if record is None:
@@ -252,7 +277,7 @@ class StoreBase:
             self._emit_supersession_effects(record)
 
     def insert_record(self, record: RecordEnvelope) -> OperationResult:
-        validate_record_semantics(record, self._lookup_record)
+        validate_record_semantics(record, self._lookup_record, source_blob_lookup=self._lookup_source_blob)
         existing = self._existing_outcome(record)
         if existing is not None:
             return existing

@@ -66,3 +66,42 @@ def test_export_excludes_unreferenced_orphan_blob(seeded_store, tmp_path: Path) 
     exported = {entry["sha256"] for entry in manifest["sources"]}
     assert orphan_digest not in exported
     assert not (bundle / "sources" / orphan_digest).exists()
+
+
+def _source_retry_args(row, payload: dict, content: bytes) -> dict:
+    return {
+        "actor_id": row["actor_id"], "source_key": payload["source_key"],
+        "locator": payload["locator"], "retrieval_route": payload["retrieval_route"],
+        "media_type": payload["media_type"], "custody_mode": payload["custody_mode"],
+        "retention_status": payload["retention_status"], "observed_at": row["observed_at"],
+        "content": content, "predecessor_record_id": row["predecessor_record_id"],
+        "record_id": row["record_id"], "created_at": row["created_at"],
+    }
+
+
+def test_verified_retry_restores_missing_blob_from_matching_supplied_content(seeded_store) -> None:
+    row = seeded_store._connection.execute(
+        "select * from records where record_type='SourceSnapshot' order by created_at limit 1"
+    ).fetchone()
+    payload = json.loads(row["payload_json"])
+    digest = payload["content_sha256"]
+    path = seeded_store.sources_path / digest
+    content = path.read_bytes()
+    path.unlink()
+    result = seeded_store.observe_source(**_source_retry_args(row, payload, content))
+    assert result.outcome == "VERIFIED"
+    assert path.read_bytes() == content
+
+
+def test_verified_retry_rejects_divergent_existing_blob_without_overwrite(seeded_store) -> None:
+    row = seeded_store._connection.execute(
+        "select * from records where record_type='SourceSnapshot' order by created_at limit 1"
+    ).fetchone()
+    payload = json.loads(row["payload_json"])
+    digest = payload["content_sha256"]
+    path = seeded_store.sources_path / digest
+    expected = path.read_bytes()
+    path.write_bytes(b"divergent")
+    with pytest.raises(ValidationError, match="digest mismatch"):
+        seeded_store.observe_source(**_source_retry_args(row, payload, expected))
+    assert path.read_bytes() == b"divergent"

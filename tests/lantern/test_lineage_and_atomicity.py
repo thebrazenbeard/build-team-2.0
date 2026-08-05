@@ -1,8 +1,13 @@
 from __future__ import annotations
 
+import json
+import os
+from pathlib import Path
+
 import pytest
 
-from lantern.store import ValidationError
+from lantern.canonical import canonical_json_bytes, sha256_hex
+from lantern.store import LanternStore, ValidationError
 
 
 def test_stale_competing_successor_has_no_partial_database_or_source_effects(seeded_store, fixture_data: dict) -> None:
@@ -54,3 +59,73 @@ def test_successor_projection_and_events_commit_together(seeded_store, fixture_d
     assert seeded_store._connection.execute(
         "select count(*) from state_events where event_type='REVIEW_REQUIRED'"
     ).fetchone()[0] == 2
+
+
+def _journal_paths(root: Path, operation_id: str) -> tuple[Path, Path]:
+    token = sha256_hex(operation_id)[:32]
+    stage = root / ".lantern-staging" / token
+    journal = root / ".lantern-operations" / f"{token}.json"
+    stage.mkdir(parents=True, exist_ok=True)
+    journal.parent.mkdir(parents=True, exist_ok=True)
+    return stage, journal
+
+
+def _write_journal(journal: Path, operation_id: str, stage: Path, root: Path, targets: list[str]) -> None:
+    journal.write_bytes(canonical_json_bytes({
+        "schema": "LANTERN_FILE_OPERATION_V1",
+        "operation_id": operation_id,
+        "stage_dir": stage.relative_to(root).as_posix(),
+        "new_targets": targets,
+    }) + b"\n")
+
+
+@pytest.mark.parametrize("case", ["absolute", "traversal", "malformed", "noncanonical", "operation_mismatch"])
+def test_hostile_recovery_journal_blocks_open_without_external_deletion(tmp_path: Path, case: str) -> None:
+    root = tmp_path / "store"
+    with LanternStore.initialize(root):
+        pass
+    outside = tmp_path / "outside.txt"
+    outside.write_text("keep", encoding="utf-8")
+    operation_id = "hostile-recovery"
+    stage, journal = _journal_paths(root, operation_id)
+    digest = sha256_hex(b"safe")
+    if case == "absolute":
+        _write_journal(journal, operation_id, stage, root, [outside.as_posix()])
+    elif case == "traversal":
+        _write_journal(journal, operation_id, stage, root, ["sources/../outside.txt"])
+    elif case == "malformed":
+        journal.write_text("{", encoding="utf-8")
+    elif case == "noncanonical":
+        payload = {"schema": "LANTERN_FILE_OPERATION_V1", "operation_id": operation_id,
+                   "stage_dir": stage.relative_to(root).as_posix(), "new_targets": [f"sources/{digest}"]}
+        journal.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+    else:
+        _write_journal(journal, "different-operation", stage, root, [f"sources/{digest}"])
+    with pytest.raises(ValidationError):
+        LanternStore.open(root)
+    assert outside.read_text(encoding="utf-8") == "keep"
+    assert journal.exists()
+
+
+def test_symlinked_recovery_stage_blocks_open(tmp_path: Path) -> None:
+    root = tmp_path / "store"
+    with LanternStore.initialize(root):
+        pass
+    outside_dir = tmp_path / "outside-dir"
+    outside_dir.mkdir()
+    (outside_dir / "keep.txt").write_text("keep", encoding="utf-8")
+    operation_id = "symlink-recovery"
+    token = sha256_hex(operation_id)[:32]
+    stage_parent = root / ".lantern-staging"
+    stage_parent.mkdir(exist_ok=True)
+    stage = stage_parent / token
+    try:
+        os.symlink(outside_dir, stage, target_is_directory=True)
+    except (OSError, NotImplementedError):
+        pytest.skip("symlink creation unavailable")
+    journal = root / ".lantern-operations" / f"{token}.json"
+    journal.parent.mkdir(exist_ok=True)
+    _write_journal(journal, operation_id, stage, root, [])
+    with pytest.raises(ValidationError, match="symlink"):
+        LanternStore.open(root)
+    assert (outside_dir / "keep.txt").read_text(encoding="utf-8") == "keep"

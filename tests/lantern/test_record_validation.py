@@ -89,3 +89,27 @@ def test_projection_rebuild_reuses_authoritative_semantic_validator(seeded_store
     with pytest.raises(ValidationError, match="disposition"):
         with seeded_store.transaction():
             seeded_store._rebuild_projections()
+
+
+def test_direct_insert_rejects_retained_custody_without_blob_and_has_zero_effects(seeded_store) -> None:
+    fake_digest = "a" * 64
+    record = build_record(
+        project_id=seeded_store.project_id,
+        record_id=deterministic_uuid7("retained-without-bytes", timestamp_ms=1785867010000),
+        record_type="SourceSnapshot", actor_id="tester", created_at="2026-08-04T13:10:10Z",
+        observed_at="2026-08-04T13:10:10Z", provenance={"source_locator": "x", "retrieval_route": "TEST"},
+        lineage_key="retained-without-bytes",
+        payload={"source_key": "retained-without-bytes", "locator": "x", "retrieval_route": "TEST",
+                 "media_type": "text/plain", "custody_mode": "CAPTURED",
+                 "retention_status": "RETAINED", "content_sha256": fake_digest},
+    )
+    before_records = _count(seeded_store)
+    before_manifest = (seeded_store.root / seeded_store.MANIFEST_NAME).read_bytes()
+    before_sources = sorted(path.name for path in seeded_store.sources_path.iterdir())
+    with pytest.raises(ValidationError, match="missing|retained source bytes"):
+        seeded_store.insert_record(record)
+    assert _count(seeded_store) == before_records
+    assert (seeded_store.root / seeded_store.MANIFEST_NAME).read_bytes() == before_manifest
+    assert sorted(path.name for path in seeded_store.sources_path.iterdir()) == before_sources
+    assert not (seeded_store.root / ".lantern-staging").exists() or not any((seeded_store.root / ".lantern-staging").iterdir())
+    assert not (seeded_store.root / ".lantern-operations").exists() or not any((seeded_store.root / ".lantern-operations").iterdir())

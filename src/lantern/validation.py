@@ -10,6 +10,7 @@ from .ids import require_uuid7
 from ._store_types import ValidationError
 
 RecordLookup = Callable[[str], RecordEnvelope | None]
+SourceBlobLookup = Callable[[str], bytes | None]
 _HEX64 = re.compile(r"^[0-9a-f]{64}$")
 _CUSTODY = {"REFERENCE_ONLY", "CAPTURED", "EMBEDDED", "REDACTED", "UNAVAILABLE"}
 _DISPOSITIONS = {"ACCEPTED", "DISPUTED", "REJECTED", "UNVERIFIED"}
@@ -86,6 +87,7 @@ def validate_record_semantics(
     lookup: RecordLookup,
     *,
     source_content: bytes | None = None,
+    source_blob_lookup: SourceBlobLookup | None = None,
 ) -> None:
     payload = record.payload
     provenance = record.provenance
@@ -117,8 +119,17 @@ def validate_record_semantics(
         if custody in {"CAPTURED", "EMBEDDED"}:
             if not isinstance(digest, str) or not _HEX64.fullmatch(digest):
                 raise ValidationError(f"{custody} custody requires content_sha256")
-            if source_content is not None and sha256_hex(source_content) != digest:
-                raise ValidationError("Source content digest does not match SourceSnapshot")
+            if source_content is not None:
+                if sha256_hex(source_content) != digest:
+                    raise ValidationError("Source content digest does not match SourceSnapshot")
+            elif source_blob_lookup is not None:
+                retained = source_blob_lookup(digest)
+                if retained is None:
+                    raise ValidationError("Retained source blob is missing")
+                if sha256_hex(retained) != digest:
+                    raise ValidationError("Retained source blob digest does not match SourceSnapshot")
+            else:
+                raise ValidationError(f"{custody} custody requires retained source bytes")
         else:
             if digest is not None:
                 raise ValidationError(f"{custody} custody cannot retain source bytes")

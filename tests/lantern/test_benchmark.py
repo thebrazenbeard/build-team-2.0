@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 from lantern.benchmark import score_benchmark
-from lantern.canonical import canonical_json_bytes
+from lantern.canonical import canonical_json_bytes, sha256_hex
 from lantern.store import ValidationError
 
 from conftest import ARTIFACT_ROOT
@@ -86,7 +86,7 @@ def test_mutated_frozen_json_artifact_fails_closed(
     value = json.loads(artifact.read_text(encoding="utf-8"))
     mutator(value)
     artifact.write_bytes(canonical_json_bytes(value) + b"\n")
-    with pytest.raises(ValidationError, match="Frozen artifact changed|frozen contract"):
+    with pytest.raises(ValidationError, match="Frozen artifact changed|frozen contract|immutable trust anchor"):
         _score(root, tmp_path)
 
 
@@ -118,3 +118,27 @@ def test_measurements_must_bind_exact_frozen_fixture_and_artifact_set(tmp_path: 
     measurements["frozen_artifact_set_sha256"] = "0" * 64
     with pytest.raises(ValidationError, match="artifact set"):
         _score(ARTIFACT_ROOT, tmp_path, measurements)
+
+
+def test_self_consistent_refreeze_attack_fails_against_pinned_trust_anchor(tmp_path: Path) -> None:
+    root = _copied_artifacts(tmp_path)
+    contract_path = root / "scoring-contract-v1.json"
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    contract["required_median_reconstruction_reduction_percent"] = 0
+    contract_bytes = canonical_json_bytes(contract) + b"\n"
+    contract_path.write_bytes(contract_bytes)
+
+    freeze_path = root / "freeze-receipt-v1.json"
+    freeze = json.loads(freeze_path.read_text(encoding="utf-8"))
+    for entry in freeze["artifacts"]:
+        data = (root / entry["path"]).read_bytes()
+        entry["sha256"] = sha256_hex(data)
+        entry["size"] = len(data)
+    freeze["artifact_set_sha256"] = sha256_hex(canonical_json_bytes(freeze["artifacts"]))
+    freeze["pass_rule_sha256"] = sha256_hex(canonical_json_bytes(contract))
+    freeze_path.write_bytes(canonical_json_bytes(freeze) + b"\n")
+
+    measurements = _measurements()
+    measurements["frozen_artifact_set_sha256"] = freeze["artifact_set_sha256"]
+    with pytest.raises(ValidationError, match="immutable trust anchor"):
+        _score(root, tmp_path, measurements)
