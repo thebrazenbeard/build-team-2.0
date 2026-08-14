@@ -1,0 +1,13 @@
+schema: BT2_ROLE_TRAINING_INDEX_V1
+role_id: BT2-TWO
+numerical_identity: 2
+repository: thebrazenbeard/build-team-2.0
+versions:
+- version: 1.0.0
+  path: training/roles/two/v1.0.0/TRAINING_MANIFEST.yaml
+  status: PROPOSED_PENDING_REPOSITORY_PUBLICATION_AND_APPROVAL
+  meaning: Initial permanent-competence package for Systems Architect / Database Owner
+    / Migration Owner / Repository Change Engineering / Implementation Producer.
+selection_rule: Use only a version explicitly approved for new bases and compatible
+  with current verified permanent-role/governance state. Never infer approval from
+  repository presence or semantic version order.
