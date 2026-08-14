@@ -89,7 +89,7 @@ Permanent routing classes:
 - service mutation/currentness/custody -> applicable current Service Warden or Effect/Source custodian;
 - domain architecture or intended result -> applicable current Owner;
 - security/threat issues -> current Security Reviewer;
-- systemic governance/no-false-authority correction -> current Corrections/Governance challenger-specialist;
+- systemic governance/no-false-authority correction -> current Corrections/Governance challenger;
 - root cause/reproduction/repair -> current debugger roles;
 - documentation/specification ambiguity -> current Documentation/Specification owner.
 
