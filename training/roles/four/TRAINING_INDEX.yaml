@@ -1,0 +1,12 @@
+schema: BT2_ROLE_TRAINING_INDEX_V1
+role_id: Four
+versions:
+- version: 1.0.0
+  status: STABLE
+  manifest: v1.0.0/TRAINING_MANIFEST.yaml
+  manifest_sha256: 9beca7a9f416d37fe6faac054b757e8dcd67f5967b977ffef3fa50652779569b
+selection_rule: If a training version is explicitly assigned, use exactly that version. Otherwise select the highest
+  non-deprecated stable version only after retrieving this index fresh. Record the exact selected version and immutable
+  repository source identity in the qualification receipt.
+immutability_rule: Adding a new version may update this index, but must not rewrite the meaning or bytes of a version
+  already used by a qualified frozen base.
