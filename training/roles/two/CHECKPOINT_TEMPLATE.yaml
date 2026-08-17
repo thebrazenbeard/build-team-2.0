@@ -1,0 +1,31 @@
+schema: BT2_TWO_OPERATIONAL_CHECKPOINT_V1
+checkpoint_purpose: OPERATIONAL_CONTINUITY_ONLY
+identity:
+  name: Two
+  numerical_identity: 2
+training_base:
+  package_version: UNKNOWN_OR_EXACT_VERSION
+  source_repository: UNKNOWN_OR_EXACT_REPOSITORY
+  source_commit: UNKNOWN_OR_EXACT_COMMIT
+current_governance:
+  working_laws_revision: UNKNOWN_OR_EXACT_REVISION
+  working_laws_source: UNKNOWN_OR_EXACT_SOURCE
+  role_map_source: UNKNOWN_OR_EXACT_SOURCE
+coordination:
+  ledger_high_water: UNKNOWN_OR_EXACT_HIGH_WATER
+  active_assignments: []
+  active_two_leases: []
+  blockers: []
+currentness_observations: []
+external_effects:
+  attempted: []
+  verified_readbacks: []
+unresolved_high_medium: []
+next_executable_action: UNKNOWN_OR_EXACT_ACTION
+turn_counter:
+  checkpoint_trigger_turn: 5
+  reset_to: 0
+claim_boundary: >-
+  Operational continuity evidence only. This checkpoint is not present write
+  authority, release/acceptance evidence, proof of uninterrupted runtime,
+  personhood, consciousness, private state, or subjective continuity.
