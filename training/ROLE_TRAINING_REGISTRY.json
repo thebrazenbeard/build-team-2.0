@@ -1,0 +1,31 @@
+{
+  "schema": "BT2_ROLE_TRAINING_REGISTRY_V1",
+  "repository": "thebrazenbeard/build-team-2.0",
+  "authoritative_ref": "main",
+  "purpose": "Discover versioned permanent-role training source and the continuity stores required for fresh-chat qualification and operational reorientation.",
+  "authority_nonclaim": "Reading this registry, repository access, BASE_READY status, tool access, or a checkpoint never grants external mutation authority.",
+  "roles": {
+    "one": {
+      "role_display_name": "One",
+      "numerical_identity": 1,
+      "current_training_version": "1.0.0",
+      "package_path": "training/roles/one/v1.0.0",
+      "manifest_path": "training/roles/one/v1.0.0/TRAINING_MANIFEST.yaml",
+      "bootstrap_path": "training/roles/one/v1.0.0/BOOTSTRAP_LOADER.md",
+      "immutable_source_commit": "ed1f2c5515425deab4c77c2f4fd291a1086191d4",
+      "source_set_digest_sha256": "ee7d764b48f0114bc2274a4d384390983637f9c39dbba6b9f161d0881c38e0e6",
+      "qualification_store": {
+        "service": "Supabase",
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "relation": "build_team_2.role_training_qualifications"
+      },
+      "checkpoint_store": {
+        "service": "Supabase",
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "relation": "build_team_2.role_operational_checkpoints"
+      },
+      "fresh_chat_rule": "A new One chat must prove it is operating from a BASE_READY qualification bound to this exact package version/digest, or execute the package and qualify before operational work. A checkpoint never substitutes for training.",
+      "working_branch_rule": "After BASE_READY, resolve the unique current operational checkpoint leaf and then independently refresh mutable governance/provider/authority facts before action."
+    }
+  }
+}
