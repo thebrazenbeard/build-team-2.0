@@ -5,7 +5,7 @@ repository: thebrazenbeard/build-team-2.0
 versions:
 - version: 1.0.0
   path: training/roles/two/v1.0.0/TRAINING_MANIFEST.yaml
-  status: PROPOSED_PENDING_REPOSITORY_PUBLICATION_AND_APPROVAL
+  status: APPROVED_FOR_NEW_BASES
   meaning: Initial permanent-competence package for Systems Architect / Database Owner
     / Migration Owner / Repository Change Engineering / Implementation Producer.
 selection_rule: Use only a version explicitly approved for new bases and compatible
