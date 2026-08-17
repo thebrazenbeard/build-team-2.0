@@ -5,6 +5,10 @@ versions:
   status: STABLE
   manifest: v1.0.0/TRAINING_MANIFEST.yaml
   manifest_sha256: 9beca7a9f416d37fe6faac054b757e8dcd67f5967b977ffef3fa50652779569b
+- version: 1.1.0
+  status: STABLE
+  manifest: v1.1.0/TRAINING_MANIFEST.yaml
+  manifest_sha256: 5e4ca3ed038382cc3f8054671d0530287049e27c3fd491088adb6f781052c278
 selection_rule: If a training version is explicitly assigned, use exactly that version. Otherwise select the highest
   non-deprecated stable version only after retrieving this index fresh. Record the exact selected version and immutable
   repository source identity in the qualification receipt.

@@ -1,0 +1,138 @@
+{
+  "$id": "BT2_FOUR_BASE_READY_RECEIPT_V1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_disqualifiers": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 0,
+      "type": "array"
+    },
+    "base_ready": {
+      "const": true
+    },
+    "concrete_evidence_subjects": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "continuity_ceiling": {
+      "const": "NO_UNINTERRUPTED_RUNTIME_OR_SUBJECTIVE_CONTINUITY_CLAIM"
+    },
+    "final_qualification": {
+      "additionalProperties": false,
+      "properties": {
+        "rationale": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "result": {
+          "const": "QUALIFIED"
+        }
+      },
+      "required": [
+        "result",
+        "rationale"
+      ],
+      "type": "object"
+    },
+    "manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "module_results": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "evidence_summary": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "id": {
+            "pattern": "^M0[1-9]$",
+            "type": "string"
+          },
+          "result": {
+            "enum": [
+              "PASS",
+              "FAIL",
+              "UNRESOLVED"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "result",
+          "evidence_summary"
+        ],
+        "type": "object"
+      },
+      "maxItems": 9,
+      "minItems": 9,
+      "type": "array"
+    },
+    "package_content_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "qualified_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "role_id": {
+      "const": "Four"
+    },
+    "schema": {
+      "const": "BT2_FOUR_BASE_READY_RECEIPT_V1"
+    },
+    "training_source": {
+      "additionalProperties": false,
+      "properties": {
+        "manifest_path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "repository": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "repository",
+        "source_commit",
+        "manifest_path",
+        "version"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema",
+    "role_id",
+    "qualified_at",
+    "training_source",
+    "manifest_sha256",
+    "package_content_sha256",
+    "module_results",
+    "concrete_evidence_subjects",
+    "automatic_disqualifiers",
+    "final_qualification",
+    "base_ready",
+    "continuity_ceiling"
+  ],
+  "title": "Build Team Two Four BASE_READY Qualification Receipt",
+  "type": "object"
+}

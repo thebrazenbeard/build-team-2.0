@@ -1,0 +1,278 @@
+{
+  "$id": "BT2_FOUR_OPERATIONAL_CHECKPOINT_V1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assignments": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "scope": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "source_locator": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "scope",
+          "status",
+          "source_locator"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "authority": {
+      "additionalProperties": false,
+      "properties": {
+        "direct_user_authorizations": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "explicit_absences": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "leases": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "leases",
+        "explicit_absences",
+        "direct_user_authorizations"
+      ],
+      "type": "object"
+    },
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "checkpoint_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "continuity_ceiling": {
+      "const": "NO_UNINTERRUPTED_RUNTIME_OR_SUBJECTIVE_CONTINUITY_CLAIM"
+    },
+    "coordination": {
+      "additionalProperties": false,
+      "properties": {
+        "last_consumed_sequence": {
+          "type": [
+            "string",
+            "integer",
+            "null"
+          ]
+        },
+        "sources_checked": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "last_consumed_sequence",
+        "sources_checked"
+      ],
+      "type": "object"
+    },
+    "corrections_supersessions": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "currentness_rule": {
+      "const": "CHECKPOINT_IS_RECOVERY_EVIDENCE_NOT_CURRENT_AUTHORITY"
+    },
+    "dependencies": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "governance": {
+      "additionalProperties": false,
+      "properties": {
+        "locator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "observed_revision": {
+          "type": [
+            "string",
+            "integer"
+          ]
+        }
+      },
+      "required": [
+        "locator",
+        "observed_revision"
+      ],
+      "type": "object"
+    },
+    "next_safe_action": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "observed_at": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "prohibited_effects": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "provenance_boundary": {
+      "additionalProperties": false,
+      "properties": {
+        "statement": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "statement"
+      ],
+      "type": "object"
+    },
+    "repositories": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "observed_at": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "observed_head": {
+            "pattern": "^[0-9a-f]{40}$",
+            "type": "string"
+          },
+          "ref": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "repository": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "tree": {
+            "pattern": "^[0-9a-f]{40}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "repository",
+          "ref",
+          "observed_head",
+          "tree",
+          "observed_at"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "role_id": {
+      "const": "Four"
+    },
+    "schema": {
+      "const": "BT2_FOUR_OPERATIONAL_CHECKPOINT_V1"
+    },
+    "terminal_work": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "training_base": {
+      "additionalProperties": false,
+      "properties": {
+        "manifest_path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "repository": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "source_commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "repository",
+        "source_commit",
+        "manifest_path",
+        "manifest_sha256"
+      ],
+      "type": "object"
+    },
+    "unresolved_evidence": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema",
+    "role_id",
+    "checkpoint_id",
+    "observed_at",
+    "provenance_boundary",
+    "training_base",
+    "governance",
+    "coordination",
+    "assignments",
+    "dependencies",
+    "blockers",
+    "repositories",
+    "authority",
+    "terminal_work",
+    "corrections_supersessions",
+    "next_safe_action",
+    "prohibited_effects",
+    "unresolved_evidence",
+    "currentness_rule",
+    "continuity_ceiling"
+  ],
+  "title": "Build Team Two Four Operational Checkpoint",
+  "type": "object"
+}
