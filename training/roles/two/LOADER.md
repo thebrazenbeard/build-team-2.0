@@ -16,6 +16,7 @@ Purpose: train a fresh ChatGPT conversation for the permanent BT2 role **Two / 2
 10. `BASE_READY` is allowed only under the exact conditions in the manifest. Record the exact repository, commit, version path, manifest/checksum identities, module results, and evaluator verdict using `BASE_READY_RECEIPT_TEMPLATE.yaml`.
 11. Freeze that qualified chat as a **base**. The base carries trained competence only.
 12. When a working chat is branched from the base, perform a fresh operational reorientation from current verified state: current governance, role map, roster, assignments, leases, blockers, provider/database state, and project priorities. Never import those mutable facts from the frozen training package.
+13. After reorientation, load `training/roles/two/CHECKPOINT_PROTOCOL.md`. Working chats must maintain its turn counter and external continuity checkpoint discipline. The checkpoint protocol is operational infrastructure, not frozen training truth, and must itself be reread if it changes.
 
 ## Separation rule
 
