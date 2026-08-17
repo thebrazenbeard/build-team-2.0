@@ -53,6 +53,34 @@
       },
       "fresh_chat_rule": "A new Nine chat must prove a PASS qualification bound to this exact package version/source-set digest or execute the exact package and qualify before operational work. A checkpoint never substitutes for training.",
       "working_branch_rule": "After BASE_READY, resolve the unique valid Nine checkpoint leaf, then independently refresh mutable governance, assignment, provider/target, and authority evidence before any acceptance or effect claim."
+    },
+    "thirteen": {
+      "role_display_name": "Thirteen",
+      "numerical_identity": 13,
+      "current_training_version": "1.0.0",
+      "package_path": "training/roles/thirteen/corrections/v1.0.0",
+      "manifest_path": "training/roles/thirteen/corrections/v1.0.0/manifest.yaml",
+      "bootstrap_path": "training/roles/thirteen/corrections/v1.0.0/BOOTSTRAP.md",
+      "fresh_chat_startup_path": "training/FRESH_CHAT_STARTUP.md",
+      "checkpoint_protocol_path": "continuity/thirteen/CHECKPOINT_PROTOCOL.md",
+      "checkpoint_schema_path": "continuity/thirteen/THIRTEEN_OPERATIONAL_CHECKPOINT_V1.schema.json",
+      "checkpoint_tool_path": "continuity/thirteen/checkpoint_tool.py",
+      "immutable_source_commit": "4de273b3d56ec642c7f9ba83e4767029cf054559",
+      "manifest_sha256": "49ca83e55940caecf6df56170bcd5ddca8044933d56db897fbfe0f052c87fc3e",
+      "source_set_digest_sha256": "89f3da76b9033c9302e2ddb85c68b6bf0b7856383d7bce65f671170d4a8a7bc1",
+      "source_set_digest_rule": "SHA256 over lexicographically sorted package files encoded as UTF-8 relative path + NUL + file SHA256 + NUL + decimal byte_count + LF.",
+      "qualification_store": {
+        "service": "Supabase",
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "relation": "build_team_2.role_training_qualifications"
+      },
+      "checkpoint_store": {
+        "service": "Supabase",
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "relation": "build_team_2.role_operational_checkpoints"
+      },
+      "fresh_chat_rule": "A new Thirteen chat must prove a PASS qualification bound to this exact package version/source-set digest or execute the exact package and qualify before operational work. A checkpoint never substitutes for training.",
+      "working_branch_rule": "After BASE_READY, resolve the unique valid Thirteen checkpoint leaf, then independently refresh mutable governance, role/assignment supersession, Service Warden/lease state, provider/device objects, blockers, and direct coordination before any correction, authority, or effect claim."
     }
   }
 }
