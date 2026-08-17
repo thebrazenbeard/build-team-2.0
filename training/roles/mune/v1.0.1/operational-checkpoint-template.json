@@ -39,13 +39,14 @@
     "governance_refs": [],
     "material_provider_or_target_state": []
   },
+  "resume_rule": "Refresh all currentness/authority/subject evidence before acting; checkpoint facts never self-authorize current execution.",
   "retry_and_effect_state": {
     "ambiguous_effect_state": null,
     "commit_state": null,
     "non_idempotent_operation_id": null,
     "read_attempts": []
   },
-  "role": "Mune — Debugger Verification / Regression Specialist",
+  "role": "Mune \u2014 Debugger Verification / Regression Specialist",
   "schema": "BT2_MUNE_OPERATIONAL_CHECKPOINT_V1",
   "training_source": {
     "manifest_git_blob": null,
@@ -58,6 +59,5 @@
     "superseded_subjects": [],
     "unresolved_findings": [],
     "verdict": null
-  },
-  "resume_rule": "Refresh all currentness/authority/subject evidence before acting; checkpoint facts never self-authorize current execution."
+  }
 }
