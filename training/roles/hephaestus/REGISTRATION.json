@@ -1,0 +1,39 @@
+{
+  "schema": "BT2_HEPHAESTUS_ROLE_TRAINING_REGISTRATION_V1",
+  "role_display_name": "Hephaestus",
+  "numerical_identity": null,
+  "numerical_identity_rule": "Do not infer a numerical identity from roster position. Resolve it from current governance if one is explicitly assigned.",
+  "training": {
+    "package_id": "bt2-hephaestus-debugger-implementation-repair-training",
+    "current_training_version": "1.0.0",
+    "repository": "thebrazenbeard/build-team-2.0",
+    "package_path": "training/roles/hephaestus/v1.0.0",
+    "manifest_path": "training/roles/hephaestus/v1.0.0/TRAINING_MANIFEST.yaml",
+    "bootstrap_path": "training/roles/hephaestus/v1.0.0/BOOTSTRAP.md",
+    "immutable_source_commit": "a3fc622535444e2ef7c3c472d94bee787a7110be",
+    "manifest_sha256": "ca4cbe45ce439ffe98ef154912ab06c8f293c1b3f9fbdfdc9ef702a84e5f3e98",
+    "checksums_sha256": "eea25b78394941daed379389dae817940ce68c5672b7c74ceef364072cb73bbe"
+  },
+  "training_checkpoint_support": {
+    "version": "1",
+    "path": "training/roles/hephaestus/checkpoint-support/v1",
+    "immutable_source_commit": "8252ef58673b87ef8fb199b7c8b83da75e29b1f3",
+    "support_tree": "f3a36785b48fd2838dc95a719185a3dcb06ee771",
+    "checksums_sha256": "787572d81d959ccc806bf2d4f4c1fb5c08656759c458f3b02b3acaae0b34d721",
+    "checkpoint_tool_path": "training/roles/hephaestus/checkpoint-support/v1/scripts/training_checkpoint.py",
+    "package_verifier_path": "training/roles/hephaestus/checkpoint-support/v1/scripts/verify_package.py"
+  },
+  "qualification_store": {
+    "service": "Supabase",
+    "project_id": "klmbpaigzeguvnpccqzz",
+    "relation": "build_team_2.role_training_qualifications"
+  },
+  "operational_checkpoint_store": {
+    "service": "Supabase",
+    "project_id": "klmbpaigzeguvnpccqzz",
+    "relation": "build_team_2.role_operational_checkpoints"
+  },
+  "fresh_chat_rule": "A fresh Hephaestus chat must prove BASE_READY qualification bound to the exact training source, or execute that package and qualify before ordinary operational work. Training checkpoint evidence never substitutes for qualification.",
+  "working_branch_rule": "After BASE_READY, resolve the latest valid operational checkpoint if one exists, then independently refresh live Project Instructions, BT2 governance/role/assignment state, applicable Service Warden/lease authority, and provider/source state before action.",
+  "authority_nonclaim": "This registration, repository access, training completion, checkpoint support, tool access, or BASE_READY status grants no repository/provider/database/device/deployment/release authority."
+}
