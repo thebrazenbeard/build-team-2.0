@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BT2 Masa Operational Checkpoint V1",
+  "type": "object",
+  "required": ["schema","role","training_source","operational_reorientation","assignments","exact_subjects","provider_observations","leases","findings","dependencies","handoffs","claim_ledger","continuity_claim"],
+  "properties": {
+    "schema": {"const": "BT2_MASA_OPERATIONAL_CHECKPOINT_V1"},
+    "role": {"const": "MASA"},
+    "training_source": {
+      "type": "object",
+      "required": ["training_version","manifest_sha256","base_status"],
+      "properties": {
+        "training_version": {"const": "1.0.0"},
+        "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "base_status": {"type": "string"}
+      }
+    },
+    "operational_reorientation": {"type": "object"},
+    "assignments": {"type": "array"},
+    "exact_subjects": {"type": "array"},
+    "provider_observations": {"type": "array"},
+    "leases": {"type": "array"},
+    "findings": {"type": "array"},
+    "dependencies": {"type": "array"},
+    "handoffs": {"type": "array"},
+    "claim_ledger": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["class","claim"],
+        "properties": {
+          "class": {"enum": ["OBSERVED","INFERRED","HISTORICAL","UNKNOWN"]},
+          "claim": {"type": "string"}
+        }
+      }
+    },
+    "continuity_claim": {"const": "OPERATIONAL_RESUME_ONLY_NOT_UNINTERRUPTED_RUNTIME_OR_SUBJECTIVE_CONTINUITY"}
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "BT2_MASA_TRAINING_INDEX_V1",
+  "role": "MASA",
+  "training_versions": {
+    "1.0.0": {
+      "path": "training/roles/masa/v1.0.0",
+      "status": "IMMUTABLE_TRAINING_SOURCE",
+      "loader": "training/roles/masa/v1.0.0/BOOTSTRAP.md",
+      "manifest": "training/roles/masa/v1.0.0/manifest.json"
+    }
+  },
+  "checkpoint_support": {
+    "version": "v1",
+    "tool": "training/roles/masa/support/v1/checkpoint_tool.py",
+    "contract": "training/roles/masa/support/v1/CHECKPOINT_CONTRACT.md",
+    "schema": "training/roles/masa/support/v1/CHECKPOINT.schema.json"
+  },
+  "rule": "Training source, frozen base, and operational checkpoint are separate evidence classes."
+}
