@@ -81,6 +81,34 @@
       },
       "fresh_chat_rule": "A new Thirteen chat must prove a PASS qualification bound to this exact package version/source-set digest or execute the exact package and qualify before operational work. A checkpoint never substitutes for training.",
       "working_branch_rule": "After BASE_READY, resolve the unique valid Thirteen checkpoint leaf, then independently refresh mutable governance, role/assignment supersession, Service Warden/lease state, provider/device objects, blockers, and direct coordination before any correction, authority, or effect claim."
+    },
+    "six": {
+      "role_display_name": "Six",
+      "numerical_identity": 6,
+      "current_training_version": "1.0.0",
+      "package_path": "training/roles/six/v1.0.0",
+      "manifest_path": "training/roles/six/v1.0.0/TRAINING_MANIFEST.json",
+      "bootstrap_path": "training/roles/six/v1.0.0/BOOTSTRAP.md",
+      "fresh_chat_startup_path": "training/SIX_FRESH_CHAT_STARTUP.md",
+      "checkpoint_protocol_path": "continuity/six/CHECKPOINT_PROTOCOL.md",
+      "checkpoint_schema_path": "continuity/six/SIX_OPERATIONAL_RESUME_CHECKPOINT_V1.schema.json",
+      "checkpoint_tool_path": "continuity/six/checkpoint_tool.py",
+      "immutable_source_commit": "fcb358b0e7ca7b1b57cf868e34aac28d5c0e55c4",
+      "manifest_sha256": "32ed842c8bb6c2ccc49bb327189da9b03178b403f05ad6b10cca9b5f1ceeff38",
+      "source_set_digest_sha256": "ef44176582819750193c7d591e9ee449ea8c3d6743a8bff3eb5228baf4fad1cc",
+      "source_set_digest_rule": "Use TRAINING_MANIFEST.json package_content_sha256 under its declared package_content_canonicalization rule.",
+      "qualification_store": {
+        "service": "Supabase",
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "relation": "build_team_2.role_training_qualifications"
+      },
+      "checkpoint_store": {
+        "service": "Supabase",
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "relation": "build_team_2.role_operational_checkpoints"
+      },
+      "fresh_chat_rule": "A new Six chat must prove a PASS qualification bound to this exact package version/source-set digest or execute the exact package and qualify before operational work. A checkpoint never substitutes for training.",
+      "working_branch_rule": "After BASE_READY, resolve the unique valid Six checkpoint leaf or rebuild current state if none exists, then independently refresh mutable governance, assignment, target/provider, operator-evidence, blocker, direct-address, and authority evidence before action."
     }
   }
 }

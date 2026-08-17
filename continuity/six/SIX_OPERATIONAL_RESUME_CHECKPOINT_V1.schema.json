@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "BT2_SIX_OPERATIONAL_RESUME_CHECKPOINT_V1",
+  "title": "Six Operational Resume Checkpoint V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "training",
+    "role_identity",
+    "current_governance",
+    "foreground",
+    "assignments",
+    "immutable_subjects",
+    "mutable_observations",
+    "operator_evidence",
+    "target_runtime",
+    "blockers",
+    "authority_and_leases",
+    "external_effects",
+    "handoffs_and_escalations",
+    "claim_ceilings",
+    "do_not_rerun",
+    "evidence_pointers",
+    "unknowns"
+  ],
+  "properties": {
+    "schema": {
+      "const": "SIX_OPERATIONAL_RESUME_CHECKPOINT_V1"
+    },
+    "training": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "package_id",
+        "version",
+        "manifest_sha256",
+        "source_commit_or_digest"
+      ],
+      "properties": {
+        "package_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "manifest_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "source_commit_or_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "role_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "numerical_identity"
+      ],
+      "properties": {
+        "label": {
+          "const": "Six"
+        },
+        "numerical_identity": {
+          "const": 6
+        }
+      }
+    },
+    "current_governance": {
+      "type": "object"
+    },
+    "foreground": {
+      "type": "object"
+    },
+    "assignments": {
+      "type": "array"
+    },
+    "immutable_subjects": {
+      "type": "array"
+    },
+    "mutable_observations": {
+      "type": "array"
+    },
+    "operator_evidence": {
+      "type": "array"
+    },
+    "target_runtime": {
+      "type": "object"
+    },
+    "blockers": {
+      "type": "array"
+    },
+    "authority_and_leases": {
+      "type": "array"
+    },
+    "external_effects": {
+      "type": "array"
+    },
+    "handoffs_and_escalations": {
+      "type": "array"
+    },
+    "claim_ceilings": {
+      "type": "array"
+    },
+    "do_not_rerun": {
+      "type": "array"
+    },
+    "evidence_pointers": {
+      "type": "array"
+    },
+    "unknowns": {
+      "type": "array"
+    }
+  }
+}
