@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "BT2_THIRTEEN_OPERATIONAL_CHECKPOINT_V1",
+  "title": "Thirteen Operational Checkpoint V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "role_key",
+    "numerical_identity",
+    "training_binding",
+    "governance_observation",
+    "role_map_ref",
+    "active_assignments",
+    "corrections_pipeline",
+    "blockers",
+    "service_warden_map",
+    "write_authority_observations",
+    "provider_objects",
+    "verified_effects",
+    "historical_constraints",
+    "finding_families",
+    "claim_ceilings",
+    "next_safe_frontier",
+    "provenance"
+  ],
+  "properties": {
+    "schema": {"const": "THIRTEEN_OPERATIONAL_CHECKPOINT_V1"},
+    "role_key": {"const": "thirteen"},
+    "numerical_identity": {"const": 13},
+    "training_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "source_set_digest_sha256", "qualification_id"],
+      "properties": {
+        "version": {"const": "1.0.0"},
+        "source_set_digest_sha256": {"const": "89f3da76b9033c9302e2ddb85c68b6bf0b7856383d7bce65f671170d4a8a7bc1"},
+        "qualification_id": {"type": ["integer", "null"], "minimum": 1}
+      }
+    },
+    "governance_observation": {"type": "object"},
+    "role_map_ref": {"type": ["string", "object"]},
+    "active_assignments": {"type": "array"},
+    "corrections_pipeline": {"type": "object"},
+    "blockers": {"type": "array"},
+    "service_warden_map": {"type": "object"},
+    "write_authority_observations": {"type": "array"},
+    "provider_objects": {"type": "array"},
+    "verified_effects": {"type": "array"},
+    "historical_constraints": {"type": "array"},
+    "finding_families": {"type": "array"},
+    "claim_ceilings": {"type": "array"},
+    "next_safe_frontier": {"type": ["string", "object"]},
+    "provenance": {"type": "array"}
+  }
+}
