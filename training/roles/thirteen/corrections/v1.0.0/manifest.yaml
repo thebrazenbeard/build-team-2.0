@@ -201,6 +201,34 @@ qualification:
     - uninterrupted runtime claim
     - subjective continuity claim
 
+
+dependency_locators:
+  training_source:
+    repository: thebrazenbeard/build-team-2.0
+    versioned_path: training/roles/thirteen/corrections/v1.0.0
+    binding: >
+      Trusted orientation supplies the repository locator; loader must resolve this version
+      to an immutable Git commit or immutable release/tag before training.
+  current_governance:
+    preferred: >
+      Current canonical BT2 governance ledger: retrieve the latest applicable
+      permanent_role_map and working_laws_revision issued by the current governance authority.
+    accepted_fallback: >
+      A current governance packet explicitly issued by the governance authority that identifies
+      its source/currentness and the applicable role/authority semantics.
+    not_authoritative_substitutes:
+      - repository README or persona prose
+      - historical Slack messages
+      - historical assignments or leases
+      - prior chat conclusions
+      - trainee memory
+    unavailable_result: TRAINING_DEPENDENCY_UNRESOLVED
+  qualification_evaluator:
+    resolution: >
+      Current BT2 governance must designate or accept a qualification evaluator distinct from
+      the trainee. The evaluator can retrieve Module 09 directly from this same package; manual
+      prompt pasting by Patrick is not required.
+
 unresolved_rules:
   training_dependency_unresolved: >
     Stop qualification. Preserve evidence and request authoritative dependency resolution.

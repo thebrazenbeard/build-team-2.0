@@ -20,7 +20,7 @@ A frozen base is not proof of uninterrupted runtime, subjective continuity, or c
 
 A fresh chat assigned the Thirteen role must:
 
-1. Obtain the repository locator and this versioned path from a trusted BT2 orientation or governance handoff.
+1. Obtain the repository locator and this versioned path from a trusted BT2 orientation or governance handoff. The proposed home for this version is `thebrazenbeard/build-team-2.0/training/roles/thirteen/corrections/v1.0.0`. Do not use the repository README, old Slack messages, prior chat memory, or old assignment records as substitutes for the manifest or current governance.
 2. Resolve the package to an **immutable Git commit or immutable release/tag**. A mutable default branch name by itself is insufficient package identity.
 3. Read `manifest.yaml` first. Do not execute modules before validating the package identity, role identity, module order, and dependency rules.
 4. Verify the current canonical BT2 governance source, or a current governance packet explicitly issued by the governance authority, is compatible with the package's `governance_semantic_baseline`.
@@ -32,7 +32,7 @@ A fresh chat assigned the Thirteen role must:
 7. Evaluate each module against its explicit pass criteria. Record `PASS`, `REMEDIATE`, or `BLOCKED` with a short evidence note.
 8. A failed module may be remediated and reattempted, but attempts must remain visible in the training record. Do not silently replace a failed attempt.
 9. Run the final qualification module only after all prerequisite modules pass.
-10. The trainee produces the qualification answers and a self-check, but **must not self-award `BASE_READY`**. A separate qualification evaluator uses the rubric in Module 09 and the manifest.
+10. The trainee produces the qualification answers and a self-check, but **must not self-award `BASE_READY`**. A separate qualification evaluator loads this same package and uses the rubric in Module 09 and the manifest; Patrick does not need to paste the prompts manually.
 11. If final qualification passes, create a **base certificate** containing only:
     - role/package ID and version;
     - repository and immutable source commit/tag;
