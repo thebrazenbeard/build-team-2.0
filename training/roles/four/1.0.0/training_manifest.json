@@ -1,0 +1,212 @@
+{
+  "schema": "BT2_ROLE_TRAINING_MANIFEST_V1",
+  "package_id": "BT2_ROLE_FOUR_DOCUMENTATION_RECONSTRUCTION_TRAINING",
+  "training_source_class": "VERSIONED_REPOSITORY_TRAINING_SOURCE",
+  "role": {
+    "identity_label": "Four",
+    "numerical_identity": 4,
+    "role_id": "BT2_ROLE_FOUR_DOCUMENTATION_SPECIFICATION_RECONSTRUCTION_PACKAGING",
+    "permanent_competencies": [
+      "Documentation / Specification Owner",
+      "Exact Implementation Reconstruction / Packaging"
+    ],
+    "unifying_mission": "Translate accepted semantics and exact evidence into precise, reproducible specifications, pathsets, packages, and implementation reconstructions without inventing authority, bytes, chronology, effects, or acceptance.",
+    "role_contract_path": "ROLE_CONTRACT.md"
+  },
+  "version": "1.0.0",
+  "versioning_policy": {
+    "immutable_after_qualification": true,
+    "rule": "Any semantic, exercise, criterion, dependency, ordering, or authority-boundary change requires a new version directory. Do not silently rewrite a version used by a BASE_READY chat.",
+    "recommended_path": "training/roles/four/1.0.0/"
+  },
+  "lifecycle": [
+    "ROLE_ORIENTATION",
+    "MANIFEST_RETRIEVED",
+    "PACKAGE_INTEGRITY_VERIFIED",
+    "ROLE_COMPATIBILITY_VERIFIED",
+    "MODULES_IN_ORDER",
+    "FINAL_QUALIFICATION",
+    "BASE_READY",
+    "FRESH_OPERATIONAL_REORIENTATION"
+  ],
+  "state_separation": {
+    "training_source": "Immutable versioned repository package teaching permanent role competence.",
+    "frozen_base": "Fresh chat that completed and passed this exact package version, recorded against exact source digest.",
+    "operational_state": "Separately retrieved current governance, assignments, leases, provider/target observations, blockers, and work checkpoint loaded only after branching from the base.",
+    "prohibition": "Do not write mutable operational state into this versioned training source."
+  },
+  "bootstrap_path": "BOOTSTRAP.md",
+  "source_set_digest_rule": "SHA256 over lexicographically sorted file_inventory entries encoded as UTF-8 path + NUL + sha256 + NUL + decimal byte_count + LF.",
+  "source_set_digest_sha256": "43a17edf7da647331b7c00eee3bb348cb0e76e2b404dd0431abdd8fb99a8c802",
+  "module_order": [
+    {
+      "id": "FOUR-TRN-001",
+      "path": "modules/01_role_and_currentness.md",
+      "objective": "Separate permanent role competence from mutable project state and authority.",
+      "pass_rule": "All must-pass conditions; no automatic-fail condition."
+    },
+    {
+      "id": "FOUR-TRN-002",
+      "path": "modules/02_specification_semantic_preservation.md",
+      "objective": "Preserve accepted semantics when producing exact normative specifications.",
+      "pass_rule": "All must-pass conditions; no automatic-fail condition."
+    },
+    {
+      "id": "FOUR-TRN-003",
+      "path": "modules/03_exact_reconstruction.md",
+      "objective": "Reconstruct exact source/provider/package geometry without inventing missing evidence.",
+      "pass_rule": "All must-pass conditions; no automatic-fail condition."
+    },
+    {
+      "id": "FOUR-TRN-004",
+      "path": "modules/04_pathset_packaging_minimality.md",
+      "objective": "Define the smallest responsibility-complete pathset and package.",
+      "pass_rule": "All must-pass conditions; no automatic-fail condition."
+    },
+    {
+      "id": "FOUR-TRN-005",
+      "path": "modules/05_manifests_digests_quantitative.md",
+      "objective": "Mechanically verify manifests, aggregate digests, and hard quantitative constraints.",
+      "pass_rule": "All must-pass conditions; no automatic-fail condition."
+    },
+    {
+      "id": "FOUR-TRN-006",
+      "path": "modules/06_authority_effects_handoff.md",
+      "objective": "Separate capability, authority, intended effects, actual effects, and executable handoff.",
+      "pass_rule": "All must-pass conditions; no automatic-fail condition."
+    },
+    {
+      "id": "FOUR-TRN-007",
+      "path": "modules/07_failure_retry_conflict.md",
+      "objective": "Apply retry, ambiguity, integrity-failure, and conflict discipline.",
+      "pass_rule": "All must-pass conditions; no automatic-fail condition."
+    },
+    {
+      "id": "FOUR-TRN-008",
+      "path": "modules/08_checkpoint_reorientation.md",
+      "objective": "Preserve resumable operational state without confusing checkpoint, qualification, and current truth.",
+      "pass_rule": "All must-pass conditions; no automatic-fail condition."
+    },
+    {
+      "id": "FOUR-TRN-009",
+      "path": "modules/09_final_qualification.md",
+      "objective": "Closed-book adversarial qualification for the permanent Four role.",
+      "pass_rule": "All final pass criteria; zero automatic qualification failures; unresolved High/Medium defects = 0.",
+      "final_qualification": true
+    }
+  ],
+  "completion_policy": {
+    "ordering": "STRICT",
+    "skips_allowed": false,
+    "module_result_values": [
+      "PASS",
+      "FAIL",
+      "UNRESOLVED"
+    ],
+    "retry_policy": "Failed modules may be retrained/retried, but attempt history remains attributable and the successful attempt set must be recorded.",
+    "unresolved_policy": "Any unresolved required dependency, integrity check, compatibility question, or High/Medium qualification defect prevents BASE_READY."
+  },
+  "dependencies": {
+    "required_package_files": [
+      "BOOTSTRAP.md",
+      "ROLE_CONTRACT.md",
+      "modules/01_role_and_currentness.md",
+      "modules/02_specification_semantic_preservation.md",
+      "modules/03_exact_reconstruction.md",
+      "modules/04_pathset_packaging_minimality.md",
+      "modules/05_manifests_digests_quantitative.md",
+      "modules/06_authority_effects_handoff.md",
+      "modules/07_failure_retry_conflict.md",
+      "modules/08_checkpoint_reorientation.md",
+      "modules/09_final_qualification.md",
+      "templates/FOUR_OPERATIONAL_RESUME_CHECKPOINT.md"
+    ],
+    "current_governance_compatibility": {
+      "required": true,
+      "purpose": "Confirm Four's role contract and authority boundary remain materially compatible before training begins.",
+      "minimum_checks": [
+        "Four remains assigned materially compatible documentation/specification and exact reconstruction/packaging responsibilities.",
+        "Current governance has not superseded the rule that role/tool access alone does not grant service mutation authority.",
+        "If current governance materially changes Four's permanent role, use a new training version or explicit compatibility decision before BASE_READY."
+      ],
+      "failure_state": "TRAINING_DEPENDENCY_UNRESOLVED"
+    },
+    "external_reference_requirement": "NONE_FOR_CORE_PASS"
+  },
+  "qualification": {
+    "final_module": "FOUR-TRN-009",
+    "base_ready_requires": [
+      "Manifest-owned file set integrity verified.",
+      "Current-governance compatibility check passed.",
+      "All modules completed in manifest order.",
+      "Every module result is PASS.",
+      "Final qualification is PASS.",
+      "No unresolved High or Medium training defect.",
+      "No material semantic-drift, false-exactness, stale-currentness, false-authority, effect-inflation, or fictional-continuity error.",
+      "Training transcript records package ID, version, manifest digest, exact repository commit/source digest, module attempts/results, and final qualification.",
+      "No mutable operational assignments, leases, branch SHAs, provider observations, blockers, or current work state are embedded into frozen training source or treated as permanent competence."
+    ],
+    "result_states": [
+      "BASE_READY",
+      "NOT_QUALIFIED",
+      "TRAINING_DEPENDENCY_UNRESOLVED"
+    ],
+    "base_ready_semantics": "Qualified for Four's permanent role against this exact training-source version only. BASE_READY grants no current operational authority and requires fresh operational reorientation before work."
+  },
+  "handoff": {
+    "recommended_repository": "thebrazenbeard/build-team-2.0",
+    "recommended_repository_path": "training/roles/four/1.0.0/",
+    "write_authority_required": "Current exact bounded authority for repository, branch/base, paths, holder, and operations.",
+    "training_package_itself_is_not_authority": true
+  },
+  "file_inventory": {
+    "ROLE_CONTRACT.md": {
+      "sha256": "30c28df7042be80487191db75d9852c0a064d0e18d10fb2230bc20b84279eb2f",
+      "bytes": 5471
+    },
+    "BOOTSTRAP.md": {
+      "sha256": "350571db013927713cc65505749050525ee91b8e70106f0c1128484804d24e1d",
+      "bytes": 2055
+    },
+    "templates/FOUR_OPERATIONAL_RESUME_CHECKPOINT.md": {
+      "sha256": "1d7dab34442948047350582885188717532b18a4a8e10fc3f65e3d4815022735",
+      "bytes": 818
+    },
+    "modules/01_role_and_currentness.md": {
+      "sha256": "bc4148c3f34185182194476553485d42695218e4125982f4e7b10bbbc60fbe20",
+      "bytes": 872
+    },
+    "modules/02_specification_semantic_preservation.md": {
+      "sha256": "caa5af90d1f6dbdff299908469c88592853817678d7e66ab2d1d571731bb711f",
+      "bytes": 799
+    },
+    "modules/03_exact_reconstruction.md": {
+      "sha256": "17742018204926cdd6dbbbd61355659238b0b906d62070027712dd7713416408",
+      "bytes": 813
+    },
+    "modules/04_pathset_packaging_minimality.md": {
+      "sha256": "a837278afff76cc5b30e85c7aa4b5a1765648cb21e0425306af8343980d1775a",
+      "bytes": 883
+    },
+    "modules/05_manifests_digests_quantitative.md": {
+      "sha256": "5d1f77acc4f6ead3f5a1861698723b489f9338a1ff5af9ba3d901710d4f82768",
+      "bytes": 758
+    },
+    "modules/06_authority_effects_handoff.md": {
+      "sha256": "3ecba9c5b71ebf8f035f90ae6061df25f824e7d5eb90118a10559ef5d526942a",
+      "bytes": 881
+    },
+    "modules/07_failure_retry_conflict.md": {
+      "sha256": "7c645391971500d8e7b8886ee37e9c6937ee0aab6c4db12e4f1009f5a8b37597",
+      "bytes": 775
+    },
+    "modules/08_checkpoint_reorientation.md": {
+      "sha256": "17d2341b14be036ef22290aa5cf2b596ab4871901a5b8727a4c9d22a1e152425",
+      "bytes": 843
+    },
+    "modules/09_final_qualification.md": {
+      "sha256": "a7a761b1c266ff342a6534695674dc1cc2a1c15baf97480796240319c5279be7",
+      "bytes": 2122
+    }
+  }
+}
