@@ -56,7 +56,6 @@ Return exactly one qualification state:
 - `QUALIFIED_FOR_MUNE_BASE`
 - `NOT_QUALIFIED`
 
-Then emit category verdicts and `BT2_MUNE_TRAINING_COMPLETION_RECEIPT_V1`.
+Then provide category-by-category verdicts, any failed criterion, exact training package version, and a short `BT2_MUNE_TRAINING_COMPLETION_RECEIPT_V1`.
 
-## Fatal FAIL
-Any critical category wrong or unresolved, especially authority, currentness, reviewer independence, provenance, retry safety, or base/operational-state separation.
+A trainee is not qualified if authority, currentness, reviewer independence, retry safety, provenance, or base/operational-state separation is wrong or unresolved.
