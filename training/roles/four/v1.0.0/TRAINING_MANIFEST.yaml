@@ -1,0 +1,144 @@
+schema: BT2_ROLE_TRAINING_MANIFEST_V1
+role_key: four
+role_display_name: Four
+numerical_identity: 4
+training_package:
+  version: 1.0.0
+  status: VERSIONED_TRAINING_SOURCE
+  package_type: PERMANENT_ROLE_COMPETENCE
+  source_set_digest_algorithm: SHA-256
+  source_set_digest_sha256: 08fffa3a18396962d3cb9e169524c349d365dc4ca4183c37f59b1a345a82dad5
+  source_set_digest_rule: "SHA256 over lexicographically sorted source_files entries encoded as UTF-8 relative path + NUL + sha256 + NUL + decimal byte_count + LF."
+  immutability_policy: "Material changes after qualification require a new version directory and qualification cycle."
+
+permanent_role:
+  primary: "Exact Implementation Reconstruction / Packaging"
+  secondary: "Documentation / Specification Owner"
+  authority_nonclaim: "Role ownership, qualification, repository access, and tool capability do not grant external mutation authority."
+
+separation_contract:
+  training_source: "Versioned permanent competence only; excludes mutable assignments, leases, heads, incidents, blockers, and provider state."
+  frozen_base: "A qualified reusable starting point bound to this exact package version and source-set digest; not current authority or uninterrupted runtime."
+  operational_state: "Mutable current work recovered only after BASE_READY from verified checkpoints plus fresh live source reads."
+
+current_governance_dependency:
+  required_semantics:
+    - "Four remains Exact Implementation Reconstruction / Packaging and Documentation / Specification Owner, or a formally superseding training package is provided."
+    - "Role ownership does not create service-write authority."
+  resolution_rule: "At training/startup, refresh current BT2 role-map/working-law evidence and Four-directed coordination. Material contradiction => TRAINING_PACKAGE_SUPERSEDED_OR_INCOMPATIBLE."
+
+module_execution_policy:
+  order: STRICT
+  skip_allowed: false
+  acknowledgement_counts_as_completion: false
+  unresolved_dependency_behavior: STOP_AND_RECORD_TRAINING_DEPENDENCY_UNRESOLVED
+  module_pass_rule: ALL_EXPLICIT_PASS_CRITERIA_MET_AND_NO_CRITICAL_FAIL
+
+modules:
+  - id: FOUR-TRAIN-01
+    order: 1
+    path: modules/01_role_contract_authority.md
+    sha256: b4412d60730c9c53c918ce3642531d7604317ab843f93e30b83757733bef8dd0
+    byte_count: 1198
+    objective: "Role contract and authority separation."
+  - id: FOUR-TRAIN-02
+    order: 2
+    path: modules/02_exact_reconstruction.md
+    sha256: 0444b27dd5c968f48670c582aaf33dc33dd6e4a45224bd7429cc879079688dd7
+    byte_count: 1197
+    objective: "Exact semantic-to-material reconstruction and minimal pathsets."
+  - id: FOUR-TRAIN-03
+    order: 3
+    path: modules/03_documentation_specification.md
+    sha256: 43dc9bd535449589f18bb75cd830e540f0176bd3bfbb5b5acf6e8b722a350ba0
+    byte_count: 1181
+    objective: "Documentation/specification precision and correction semantics."
+  - id: FOUR-TRAIN-04
+    order: 4
+    path: modules/04_provenance_currentness.md
+    sha256: fc127787bf87eb3a13dda4c3e406dc68cc0655d57d0aa5c18dbdafd5d18fd798
+    byte_count: 1036
+    objective: "Provenance, literal-first retrieval, currentness, and chronology discipline."
+  - id: FOUR-TRAIN-05
+    order: 5
+    path: modules/05_packaging_manifest_checksums.md
+    sha256: 582dd09807653586d966c1ebc9a827ca1c4a347a7572f6f8ee61ee133f58eb3d
+    byte_count: 1017
+    objective: "Packaging dependency order, manifests, profiles, and checksums."
+  - id: FOUR-TRAIN-06
+    order: 6
+    path: modules/06_validation_hostiles.md
+    sha256: 6acc923d8e8dd01b9731fd516cdbd47e263487acc100a28feacb747f43b3e7e3
+    byte_count: 1140
+    objective: "Deterministic/adversarial validation and hard quantitative verification."
+  - id: FOUR-TRAIN-07
+    order: 7
+    path: modules/07_authority_effects.md
+    sha256: 3ddcfc608e910067291b75cbbddf0d1691dab1aae208fb86fdee9780dfbecbd0
+    byte_count: 999
+    objective: "Writer leases, ambiguous effects, and protected-effect separation."
+  - id: FOUR-TRAIN-08
+    order: 8
+    path: modules/08_checkpoint_continuity.md
+    sha256: 391867ddf4521afc2c4de647621a9f748cace10f1f7d881b35936087216d1223
+    byte_count: 1179
+    objective: "Frozen-base versus operational-checkpoint continuity."
+  - id: FOUR-QUAL-09
+    order: 9
+    path: modules/09_final_qualification.md
+    sha256: 639e1862c01d6e08fbe6ff2e464d5365d09a43756042875bccba6e73b10d55d6
+    byte_count: 1896
+    objective: "Integrated qualification under stale subjects, capability, image, retry, and authority hostiles."
+
+source_files:
+  - path: BOOTSTRAP_LOADER.md
+    sha256: 6a10a60404a4d06498b29cdefade089fbfc6f7a7d35113a1d937965c8882518b
+    byte_count: 1556
+  - path: modules/01_role_contract_authority.md
+    sha256: b4412d60730c9c53c918ce3642531d7604317ab843f93e30b83757733bef8dd0
+    byte_count: 1198
+  - path: modules/02_exact_reconstruction.md
+    sha256: 0444b27dd5c968f48670c582aaf33dc33dd6e4a45224bd7429cc879079688dd7
+    byte_count: 1197
+  - path: modules/03_documentation_specification.md
+    sha256: 43dc9bd535449589f18bb75cd830e540f0176bd3bfbb5b5acf6e8b722a350ba0
+    byte_count: 1181
+  - path: modules/04_provenance_currentness.md
+    sha256: fc127787bf87eb3a13dda4c3e406dc68cc0655d57d0aa5c18dbdafd5d18fd798
+    byte_count: 1036
+  - path: modules/05_packaging_manifest_checksums.md
+    sha256: 582dd09807653586d966c1ebc9a827ca1c4a347a7572f6f8ee61ee133f58eb3d
+    byte_count: 1017
+  - path: modules/06_validation_hostiles.md
+    sha256: 6acc923d8e8dd01b9731fd516cdbd47e263487acc100a28feacb747f43b3e7e3
+    byte_count: 1140
+  - path: modules/07_authority_effects.md
+    sha256: 3ddcfc608e910067291b75cbbddf0d1691dab1aae208fb86fdee9780dfbecbd0
+    byte_count: 999
+  - path: modules/08_checkpoint_continuity.md
+    sha256: 391867ddf4521afc2c4de647621a9f748cace10f1f7d881b35936087216d1223
+    byte_count: 1179
+  - path: modules/09_final_qualification.md
+    sha256: 639e1862c01d6e08fbe6ff2e464d5365d09a43756042875bccba6e73b10d55d6
+    byte_count: 1896
+
+qualification:
+  prerequisite: MODULES_01_THROUGH_08_PASS
+  final_module: FOUR-QUAL-09
+  evaluator_rule: "The trainee may submit evidence but may not self-award durable BASE_READY without a bound qualification record."
+  pass_rule:
+    - "All modules pass."
+    - "Final qualification meets every pass criterion."
+    - "No automatic failure is present."
+    - "No unresolved HIGH or MEDIUM competence defect remains."
+    - "Qualification evidence binds package version 1.0.0 and source-set digest 08fffa3a18396962d3cb9e169524c349d365dc4ca4183c37f59b1a345a82dad5."
+  unresolved_rule: QUALIFICATION_PENDING_NOT_BASE_READY
+  fail_rule: TRAINING_FAILED_NOT_BASE_READY
+
+base_ready_condition: "BASE_READY requires a PASS qualification record bound to this exact package version and source-set digest. Repository access, prompt completion, naming, or self-assertion alone is insufficient."
+
+post_base_lifecycle:
+  - "Freeze the qualified base without mutable operational state."
+  - "Resolve Four's unique valid operational checkpoint."
+  - "Refresh current role map, assignments, exact subjects, blockers, provider state, and write authority."
+  - "Reconcile stale checkpoint observations against live/current evidence before action."

@@ -1,0 +1,106 @@
+{
+  "$id": "BT2_FOUR_OPERATIONAL_CHECKPOINT_V1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "active_assignments": {
+      "type": "array"
+    },
+    "blockers": {
+      "type": "array"
+    },
+    "claim_ceilings": {
+      "type": "array"
+    },
+    "exact_subjects": {
+      "type": "array"
+    },
+    "finding_families": {
+      "type": "array"
+    },
+    "governance_observation": {
+      "type": "object"
+    },
+    "next_safe_frontier": {
+      "type": [
+        "string",
+        "object"
+      ]
+    },
+    "numerical_identity": {
+      "const": 4
+    },
+    "package_state": {
+      "type": "object"
+    },
+    "provenance": {
+      "type": "array"
+    },
+    "provider_objects": {
+      "type": "array"
+    },
+    "role_key": {
+      "const": "four"
+    },
+    "role_map_ref": {
+      "type": [
+        "string",
+        "object"
+      ]
+    },
+    "schema": {
+      "const": "FOUR_OPERATIONAL_CHECKPOINT_V1"
+    },
+    "training_binding": {
+      "additionalProperties": false,
+      "properties": {
+        "qualification_id": {
+          "minimum": 1,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "source_set_digest_sha256": {
+          "const": "08fffa3a18396962d3cb9e169524c349d365dc4ca4183c37f59b1a345a82dad5"
+        },
+        "version": {
+          "const": "1.0.0"
+        }
+      },
+      "required": [
+        "version",
+        "source_set_digest_sha256",
+        "qualification_id"
+      ],
+      "type": "object"
+    },
+    "verified_effects": {
+      "type": "array"
+    },
+    "write_authority_observations": {
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema",
+    "role_key",
+    "numerical_identity",
+    "training_binding",
+    "governance_observation",
+    "role_map_ref",
+    "active_assignments",
+    "exact_subjects",
+    "package_state",
+    "blockers",
+    "write_authority_observations",
+    "provider_objects",
+    "verified_effects",
+    "finding_families",
+    "claim_ceilings",
+    "next_safe_frontier",
+    "provenance"
+  ],
+  "title": "Four Operational Checkpoint V1",
+  "type": "object"
+}

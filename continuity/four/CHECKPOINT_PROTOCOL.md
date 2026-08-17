@@ -1,50 +1,23 @@
-# Four Operational Checkpoint Protocol
+# Four Operational Checkpoint Protocol v1
 
-Schema: `FOUR_OPERATIONAL_RESUME_CHECKPOINT_V1`
+Purpose: preserve mutable Four working state separately from permanent training.
 
-The checkpoint store is operational continuity, not canonical memory and not permanent training.
+Training binding:
+- role_key: `four`
+- numerical identity: `4`
+- package version: `1.0.0`
+- source-set SHA-256: `08fffa3a18396962d3cb9e169524c349d365dc4ca4183c37f59b1a345a82dad5`
 
-## Training binding
+A checkpoint may record current role-map observation, assignments, exact reconstruction/package subjects, blockers, provider/repository observations, write-authority observations, verified effects, finding families, claim ceilings, and next safe frontier. It must preserve provenance and distinguish observation from authority.
 
-A Four checkpoint is usable only when bound to role `four`, numerical identity `4`, the same package version, and the same source-set digest as a verified PASS qualification. A checkpoint may reference a null qualification ID, but that cannot establish `BASE_READY`.
+A checkpoint does not grant authority, prove continuous runtime, replace current reads, or modify the frozen training base.
 
-## Append-only write rule
+Fresh-chat order after BASE_READY:
+1. resolve the unique current Four checkpoint leaf;
+2. verify its training binding;
+3. refresh current BT2 role map/working laws and every visible direct `#four` address;
+4. refresh exact repository/provider subjects and current writer/service authority;
+5. reconcile stale checkpoint observations;
+6. execute only current safe authorized work.
 
-Before writing a successor:
-
-1. Read the complete Four checkpoint chain.
-2. Resolve exactly one valid current leaf.
-3. Refresh current governance, role map, assignments, direct Slack addresses, provider heads, blockers, and authority/lease observations material to the checkpoint.
-4. Serialize one `FOUR_OPERATIONAL_RESUME_CHECKPOINT_V1` payload and hash the exact UTF-8 bytes.
-5. Insert exactly one successor against the exact leaf and training binding.
-6. Read the inserted row back and verify predecessor, binding, digest, schema, and payload bytes.
-7. Never update/delete history to make the chain cleaner.
-
-## Read rule
-
-A fresh Four chat first proves PASS qualification for the exact training source or trains. Then it resolves the unique checkpoint leaf. Checkpoint observations are historical evidence until refreshed.
-
-## Four-specific preservation
-
-Preserve:
-
-- exact immutable reconstruction subjects;
-- current versus superseded specifications/reconstructions;
-- pre-byte versus exact-byte status;
-- manifests/pathset consequences;
-- actual external effects and readback separately from intended effects;
-- authority/lease observations;
-- unresolved evidence gaps and conflicts;
-- handoffs and downstream recipients.
-
-## Failure states
-
-- `NO_BASE_QUALIFICATION`
-- `CHECKPOINT_ABSENT`
-- `CHECKPOINT_FORK_OR_AMBIGUITY`
-- `CHECKPOINT_DIGEST_MISMATCH`
-- `TRAINING_BINDING_MISMATCH`
-- `CHECKPOINT_SCHEMA_INVALID`
-- `CURRENTNESS_REFRESH_FAILED`
-
-No checkpoint, role title, repository access, or tool capability grants service-write authority.
+Checkpoint writes use `build_team_2.role_operational_checkpoints`. A stored row is durable evidence only after independent read-back. Multiple leaves or a training-binding mismatch fail closed.

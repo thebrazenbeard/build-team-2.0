@@ -1,74 +1,18 @@
-#!/usr/bin/env python3
-import hashlib
-import unittest
+import json, subprocess, sys
+from pathlib import Path
 
-import checkpoint_tool as tool
-
-
-def valid_payload():
-    return {
-        "schema": tool.SCHEMA,
-        "training": {
-            "package_id": tool.PACKAGE_ID,
-            "version": tool.PACKAGE_VERSION,
-            "manifest_sha256": tool.MANIFEST_SHA256,
-            "source_commit_or_digest": tool.SOURCE_SET_DIGEST,
-        },
-        "role_identity": {"label": tool.ROLE_LABEL, "numerical_identity": tool.NUMERICAL_IDENTITY},
-        "current_governance": {},
-        "foreground": {},
-        "assignments": [],
-        "immutable_subjects": [],
-        "mutable_observations": [],
-        "reconstructions_current": [],
-        "reconstructions_superseded": [],
-        "blockers": [],
-        "authority_and_leases": [],
-        "external_effects": [],
-        "handoffs_and_escalations": [],
-        "claim_ceilings": [],
-        "do_not_rerun": [],
-        "evidence_pointers": [],
-        "unknowns": [],
-    }
-
-
-class CheckpointToolTests(unittest.TestCase):
-    def test_valid_payload_passes(self):
-        self.assertEqual([], tool.validate(valid_payload()))
-
-    def test_canonical_digest_is_deterministic(self):
-        payload = valid_payload()
-        a = tool.canonical_text(payload)
-        b = tool.canonical_text(dict(reversed(list(payload.items()))))
-        self.assertEqual(a, b)
-        self.assertEqual(tool.digest_text(a), hashlib.sha256(a.encode("utf-8")).hexdigest())
-
-    def test_wrong_role_fails(self):
-        payload = valid_payload()
-        payload["role_identity"]["label"] = "One"
-        self.assertTrue(any("role_identity.label" in e for e in tool.validate(payload)))
-
-    def test_wrong_digest_fails(self):
-        payload = valid_payload()
-        payload["training"]["source_commit_or_digest"] = "0" * 64
-        self.assertTrue(any("source_commit_or_digest" in e for e in tool.validate(payload)))
-
-    def test_wrong_manifest_fails(self):
-        payload = valid_payload()
-        payload["training"]["manifest_sha256"] = "0" * 64
-        self.assertTrue(any("manifest_sha256" in e for e in tool.validate(payload)))
-
-    def test_extra_field_fails(self):
-        payload = valid_payload()
-        payload["invented_authority"] = True
-        self.assertTrue(any("unexpected top-level" in e for e in tool.validate(payload)))
-
-    def test_wrong_field_type_fails(self):
-        payload = valid_payload()
-        payload["assignments"] = {}
-        self.assertTrue(any("assignments" in e for e in tool.validate(payload)))
-
-
-if __name__ == "__main__":
-    unittest.main()
+TOOL=Path(__file__).with_name("checkpoint_tool.py")
+DIGEST="08fffa3a18396962d3cb9e169524c349d365dc4ca4183c37f59b1a345a82dad5"
+def payload():
+    return {"schema":"FOUR_OPERATIONAL_CHECKPOINT_V1","role_key":"four","numerical_identity":4,"training_binding":{"version":"1.0.0","source_set_digest_sha256":DIGEST,"qualification_id":1},"governance_observation":{},"role_map_ref":"test","active_assignments":[],"exact_subjects":[],"package_state":{},"blockers":[],"write_authority_observations":[],"provider_objects":[],"verified_effects":[],"finding_families":[],"claim_ceilings":[],"next_safe_frontier":"none","provenance":[]}
+def run(tmp_path,obj):
+    p=tmp_path/"p.json"; p.write_text(json.dumps(obj),encoding="utf-8")
+    return subprocess.run([sys.executable,str(TOOL),"verify",str(p)],capture_output=True,text=True)
+def test_valid(tmp_path):
+    r=run(tmp_path,payload()); assert r.returncode==0; assert json.loads(r.stdout)["valid"] is True
+def test_wrong_role_fails(tmp_path):
+    x=payload(); x["role_key"]="one"; assert run(tmp_path,x).returncode==2
+def test_wrong_digest_fails(tmp_path):
+    x=payload(); x["training_binding"]["source_set_digest_sha256"]="0"*64; assert run(tmp_path,x).returncode==2
+def test_extra_field_fails(tmp_path):
+    x=payload(); x["invented"]=True; assert run(tmp_path,x).returncode==2
