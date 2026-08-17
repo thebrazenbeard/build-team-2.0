@@ -6,94 +6,72 @@
   "additionalProperties": false,
   "required": [
     "schema",
-    "training",
-    "role_identity",
-    "current_governance",
-    "foreground",
-    "assignments",
-    "immutable_subjects",
-    "mutable_observations",
+    "role_key",
+    "numerical_identity",
+    "training_binding",
+    "governance_observation",
+    "role_map_ref",
+    "active_assignments",
     "operator_evidence",
     "target_runtime",
     "blockers",
-    "authority_and_leases",
-    "external_effects",
+    "service_warden_map",
+    "write_authority_observations",
+    "provider_objects",
+    "verified_effects",
+    "historical_constraints",
+    "direct_addresses",
     "handoffs_and_escalations",
     "claim_ceilings",
     "do_not_rerun",
-    "evidence_pointers",
+    "next_safe_frontier",
+    "provenance",
     "unknowns"
   ],
   "properties": {
     "schema": {
       "const": "SIX_OPERATIONAL_RESUME_CHECKPOINT_V1"
     },
-    "training": {
+    "role_key": {
+      "const": "six"
+    },
+    "numerical_identity": {
+      "const": 6
+    },
+    "training_binding": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "package_id",
         "version",
-        "manifest_sha256",
-        "source_commit_or_digest"
+        "source_set_digest_sha256",
+        "qualification_id"
       ],
       "properties": {
-        "package_id": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
         "version": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "const": "1.0.0"
         },
-        "manifest_sha256": {
+        "source_set_digest_sha256": {
+          "const": "ef44176582819750193c7d591e9ee449ea8c3d6743a8bff3eb5228baf4fad1cc"
+        },
+        "qualification_id": {
           "type": [
-            "string",
+            "integer",
             "null"
           ],
-          "pattern": "^[0-9a-f]{64}$"
-        },
-        "source_commit_or_digest": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "minimum": 1
         }
       }
     },
-    "role_identity": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "label",
-        "numerical_identity"
-      ],
-      "properties": {
-        "label": {
-          "const": "Six"
-        },
-        "numerical_identity": {
-          "const": 6
-        }
-      }
-    },
-    "current_governance": {
+    "governance_observation": {
       "type": "object"
     },
-    "foreground": {
-      "type": "object"
+    "role_map_ref": {
+      "type": [
+        "string",
+        "object"
+      ]
     },
-    "assignments": {
-      "type": "array"
-    },
-    "immutable_subjects": {
-      "type": "array"
-    },
-    "mutable_observations": {
+    "active_assignments": {
       "type": "array"
     },
     "operator_evidence": {
@@ -105,10 +83,22 @@
     "blockers": {
       "type": "array"
     },
-    "authority_and_leases": {
+    "service_warden_map": {
+      "type": "object"
+    },
+    "write_authority_observations": {
       "type": "array"
     },
-    "external_effects": {
+    "provider_objects": {
+      "type": "array"
+    },
+    "verified_effects": {
+      "type": "array"
+    },
+    "historical_constraints": {
+      "type": "array"
+    },
+    "direct_addresses": {
       "type": "array"
     },
     "handoffs_and_escalations": {
@@ -120,7 +110,13 @@
     "do_not_rerun": {
       "type": "array"
     },
-    "evidence_pointers": {
+    "next_safe_frontier": {
+      "type": [
+        "string",
+        "object"
+      ]
+    },
+    "provenance": {
       "type": "array"
     },
     "unknowns": {
