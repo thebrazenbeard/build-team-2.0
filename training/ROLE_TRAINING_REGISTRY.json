@@ -26,6 +26,33 @@
       },
       "fresh_chat_rule": "A new One chat must prove it is operating from a BASE_READY qualification bound to this exact package version/digest, or execute the package and qualify before operational work. A checkpoint never substitutes for training.",
       "working_branch_rule": "After BASE_READY, resolve the unique current operational checkpoint leaf and then independently refresh mutable governance/provider/authority facts before action."
+    },
+    "nine": {
+      "role_display_name": "Nine",
+      "numerical_identity": 9,
+      "current_training_version": "1.0.0",
+      "package_path": "training/roles/nine/1.0.0",
+      "manifest_path": "training/roles/nine/1.0.0/training_manifest.json",
+      "bootstrap_path": "training/roles/nine/1.0.0/BOOTSTRAP.md",
+      "fresh_chat_startup_path": "training/NINE_FRESH_CHAT_STARTUP.md",
+      "checkpoint_protocol_path": "continuity/nine/CHECKPOINT_PROTOCOL.md",
+      "checkpoint_schema_path": "continuity/nine/NINE_OPERATIONAL_RESUME_CHECKPOINT_V1.schema.json",
+      "immutable_source_commit": "a25c05f6c475dc96eb1c72900432ab4e74cb5acd",
+      "manifest_sha256": "a0702c71cd14521cf88312ee9f07c6bf5ccb5a95079b047332e33a532f32e67b",
+      "source_set_digest_sha256": "bcbee02e5e7f59b763ba1a441a66c4e3b83210befcb85ab7f66a5d0ccf7769e7",
+      "source_set_digest_rule": "SHA256 over lexicographically sorted training_manifest.json.file_inventory entries encoded as UTF-8 path + NUL + sha256 + NUL + decimal byte_count + LF.",
+      "qualification_store": {
+        "service": "Supabase",
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "relation": "build_team_2.role_training_qualifications"
+      },
+      "checkpoint_store": {
+        "service": "Supabase",
+        "project_id": "klmbpaigzeguvnpccqzz",
+        "relation": "build_team_2.role_operational_checkpoints"
+      },
+      "fresh_chat_rule": "A new Nine chat must prove a PASS qualification bound to this exact package version/source-set digest or execute the exact package and qualify before operational work. A checkpoint never substitutes for training.",
+      "working_branch_rule": "After BASE_READY, resolve the unique valid Nine checkpoint leaf, then independently refresh mutable governance, assignment, provider/target, and authority evidence before any acceptance or effect claim."
     }
   }
 }
