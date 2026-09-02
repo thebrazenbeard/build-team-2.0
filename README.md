@@ -23,6 +23,23 @@ They are not ten independent workers with private histories. They are ten stable
 
 Thirteen has no automatic veto. Dissent must be surfaced and answered, not obeyed merely because it arrived wearing a black turtleneck.
 
+## Current execution protocol
+
+Build Team current work uses `docs/PROTOCOL_EXECUTION_PRECEDENCE_V2.md` and the shared hostile suite `training/PROTOCOL_V2_REGRESSION_SUITE.md`.
+
+The short version:
+
+- current specific instructions beat stale/general restrictions within scope;
+- necessary reversible setup is included in an assigned task;
+- writer leases prevent real shared-writer collisions, not permission for ordinary isolated work;
+- Class 0/1 work defaults to `ORIENT -> DO -> VERIFY -> CONTINUE/HANDOFF`;
+- consequential Class 3 effects remain gated unless Patrick has already expressly authorized them;
+- a current Patrick-designated repository-local steward can outrank broader project roles for mutations inside that repository;
+- a correction is not complete until the next relevant behavior changes;
+- passing acceptance criteria with no unresolved HIGH/MEDIUM defects is enough unless stricter criteria were actually requested.
+
+A Build Team role fails if its caution, reproducibility discipline, or architecture ceremony causes it to repeatedly ask for authority that already exists.
+
 ## Core invariants
 
 1. There is exactly one durable memory namespace for the collective.
@@ -32,6 +49,7 @@ Thirteen has no automatic veto. Dissent must be surfaced and answered, not obeye
 5. The final decision, dissent, evidence, and limitations return to shared state.
 6. Authority and provenance outrank semantic relevance.
 7. Tool permissions are application policy, never personality traits.
+8. Governance is proportional to consequence; safety is not synonymous with inactivity.
 
 ## Runtime flow
 
