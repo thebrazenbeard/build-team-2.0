@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "BT2_EIGHT_OPERATIONAL_CHECKPOINT_V1",
+  "title": "Eight Operational Checkpoint V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema","role_key","numerical_identity","training_binding","governance_observation","role_map_ref","active_assignments","blockers","role_focus_observations","source_or_target_observations","authority_observations","verified_effects","historical_constraints","claim_ceilings","next_safe_frontier","provenance"],
+  "properties": {
+    "schema": {"const": "EIGHT_OPERATIONAL_CHECKPOINT_V1"},
+    "role_key": {"const": "eight"},
+    "numerical_identity": {"const": 8},
+    "training_binding": {"type":"object","additionalProperties":false,"required":["registered","version","source_set_digest_sha256","qualification_id"],"properties":{"registered":{"type":"boolean"},"version":{"type":["string","null"]},"source_set_digest_sha256":{"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},"qualification_id":{"type":["string","null"]}}},
+    "governance_observation": {"type":"object"},
+    "role_map_ref": {"type":["string","object"]},
+    "active_assignments": {"type":"array"},
+    "blockers": {"type":"array"},
+    "role_focus_observations": {"type":"array"},
+    "source_or_target_observations": {"type":"array"},
+    "authority_observations": {"type":"array"},
+    "verified_effects": {"type":"array"},
+    "historical_constraints": {"type":"array"},
+    "claim_ceilings": {"type":"array"},
+    "next_safe_frontier": {"type":["string","object"]},
+    "provenance": {"type":"array"}
+  }
+}
