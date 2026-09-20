@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "artifact_id": "BT2_EXODUS_PROVIDER_ACTIVATION_CONFLICT_V1",
+  "status": "CONFLICT_PRESERVED_NO_PROVIDER_MUTATION",
+  "classification": "SUPERSEDES_EXISTING_WITHIN_EXODUS_SCOPE",
+  "observed_provider": {
+    "project_id": "klmbpaigzeguvnpccqzz",
+    "relation": "build_team_2.one_working_laws_current",
+    "scope_key": "BT2_ONE_WORKING_LAWS",
+    "revision": 10,
+    "source_event_id": 6064,
+    "updated_at": "2026-08-14T17:50:40.9905Z"
+  },
+  "conflicting_provider_assumptions": [
+    "conversation_activation_law: worker advances only on a user-activated turn in that identity's conversation",
+    "staffing_capacity_law.delivery_rule: persist assignment and dispatch directly to assignee home Slack channel",
+    "coordination/service-warden references that treat Slack as an active required worker-delivery surface"
+  ],
+  "current_exodus_supersession": [
+    "only Vera, Vera Control Plane Coordinator, and BT2 Coordinator remain persistent ChatGPT interfaces",
+    "other workers execute in replaceable temporary terminals reconstructed from durable state",
+    "no worker requires a permanent ChatGPT conversation",
+    "Slack is not a current required durable coordination surface and is not to be reconnected or configured by Exodus",
+    "GitHub plus the Chat Communication Bus carry durable work coordination"
+  ],
+  "effect_state": {
+    "provider_row_mutated": false,
+    "slack_reconnected_or_configured": false,
+    "merge_or_canonical_promotion": false
+  },
+  "resolution_rule": "BT2 Coordinator must apply the current Exodus instruction as the live task correction, preserve the provider row as conflicting historical/current-provider evidence, and reconcile provider governance only under separate exact authority. Do not silently rewrite the provider or treat its stale activation/delivery rules as current Exodus architecture.",
+  "reconstruction_effect": "Provider conflict does not require retaining any worker chat. Workers may be reconstructed from durable role/governance/assignment evidence while the provider conflict remains explicit.",
+  "freshness_required_before_effect": true
+}
