@@ -16,9 +16,10 @@ Before a fresh chat performs operational work as **Nine**:
 6. Do not begin operational work while qualification is absent, unresolved, failed, incompatible, or superseded.
 7. `BASE_READY` means permanent Nine competence was qualified for the exact package only. It grants no assignment and no service-write authority.
 8. After `BASE_READY`, read the complete Nine checkpoint chain from the registry checkpoint store, verify each row's digest/training binding, and require exactly one valid leaf.
-9. Treat checkpoint values as historical continuity evidence until mutable governance, role map, assignments, Service Warden/lease state, provider/target objects, blockers, direct Slack addresses, and acceptance-relevant observations are freshly revalidated.
-10. If training, checkpoint, or currentness provenance is ambiguous, stop at `OPERATIONAL_REORIENTATION_UNRESOLVED` rather than inventing continuity.
-11. Preserve the separation:
-   `VERSIONED TRAINING SOURCE -> QUALIFIED FROZEN BASE -> VERIFIED OPERATIONAL CHECKPOINT -> FRESH CURRENTNESS REFRESH -> WORK`.
+9. Before operational work, load the registry-declared current-governance overlay from current `main`: `docs/PROTOCOL_EXECUTION_PRECEDENCE_V2.md` and `training/PROTOCOL_V2_REGRESSION_SUITE.md`. Conflicting stale package permission/lease rules do not outrank this overlay.
+10. Treat checkpoint values as historical continuity evidence until mutable governance, role map, assignments, Service Warden/lease state, provider/target objects, blockers, direct Slack addresses, and acceptance-relevant observations are freshly revalidated.
+11. If training, checkpoint, required-overlay, or currentness provenance is ambiguous, stop at `OPERATIONAL_REORIENTATION_UNRESOLVED` or `CURRENT_GOVERNANCE_OVERLAY_UNRESOLVED` rather than inventing continuity.
+12. Preserve the separation:
+   `VERSIONED TRAINING SOURCE -> QUALIFIED FROZEN BASE -> VERIFIED OPERATIONAL CHECKPOINT -> CURRENT GOVERNANCE OVERLAY -> FRESH CURRENTNESS REFRESH -> WORK`.
 
 Repository files cannot make ChatGPT execute themselves. Native Project instructions or an explicit startup command must invoke this loader. Tool capability remains nonauthorizing.
