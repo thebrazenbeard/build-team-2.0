@@ -29,7 +29,9 @@ jobs:
       - name: Protocol V2 governance overlay regressions
         run: python -m unittest discover -s tests -v
       - name: Four checkpoint regressions
-        run: python -m pytest -q continuity/four/test_checkpoint_tool.py continuity/four/v1.0.1/test_checkpoint_tool.py
+        run: |
+          python -m pytest -q continuity/four/test_checkpoint_tool.py
+          python -m pytest -q continuity/four/v1.0.1/test_checkpoint_tool.py
       - name: Five checkpoint regressions
         run: python continuity/five/test_checkpoint_tool.py
       - name: Six checkpoint regressions
