@@ -20,7 +20,12 @@ A chat becomes `BASE_READY` only by satisfying the exact conditions in the regis
 
 Freeze/preserve the qualified chat as the role base. Ordinary work should occur in a working branch/chat derived from that base.
 
-Before operational action, freshly retrieve and reconcile:
+Before operational work, load the current-governance overlay from the authoritative ref:
+
+- `docs/PROTOCOL_EXECUTION_PRECEDENCE_V2.md`
+- `training/PROTOCOL_V2_REGRESSION_SUITE.md`
+
+Then, before operational action, freshly retrieve and reconcile:
 
 - current native Project Instructions;
 - current BT2 governance and permanent-role map;
