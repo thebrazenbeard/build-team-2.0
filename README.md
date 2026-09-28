@@ -1,8 +1,10 @@
 > **License:** Source-visible, not open source. Original material is proprietary. Commercial use, redistribution, hosted-service use, and commercial derivative products require written permission. See [LICENSE](LICENSE) and [COMMERCIAL_LICENSE.md](COMMERCIAL_LICENSE.md). Separately identified third-party components retain their own licenses.
 
-# Build Team 2.0
+# Build Team 2.0 — Legacy Training and Continuity Source
 
-Build Team 2.0 is a ten-facet software build collective:
+> **Repository status:** non-canonical predecessor/compatibility source. The active canonical BT2 source repository is [`thebrazenbeard/bt2`](https://github.com/thebrazenbeard/bt2). This repository preserves versioned role training, checkpoint tooling, and Protocol V2 regression material. It does not establish current BT2 runtime, provider, assignment, or effect authority.
+
+Build Team 2.0 was defined as a ten-facet software build collective:
 
 **One, Two, Three, Four, Five, Six, Seven, Eight, Nine, and Thirteen.**
 
@@ -72,20 +74,31 @@ shared task + shared memory + shared evidence
             shared memory ledger
 ```
 
-## Local setup
+## What this repository contains
+
+- `docs/PROTOCOL_EXECUTION_PRECEDENCE_V2.md` — the predecessor Protocol V2 execution overlay.
+- `training/ROLE_TRAINING_REGISTRY.json` — versioned role-package/checkpoint bindings for the registered legacy roles.
+- `training/roles/` — immutable role-training source packages.
+- `continuity/` — checkpoint schemas and deterministic checkpoint helpers.
+- `training/PROTOCOL_V2_REGRESSION_SUITE.md` — shared anti-paralysis and effect-boundary regression cases.
+- `tests/` and the role/checkpoint test files — executable source-integrity checks.
+
+The repository does **not** currently contain the Agents-SDK application, a `pyproject.toml`, the old `docs/architecture.md` / `docs/personas.md` runtime docs, or `migrations/001_build_team_2.sql`. Historical setup instructions that referenced those absent files were stale and have been removed from the current README.
+
+## Validation
+
+The repair pass adds a source validator and hosted qualification workflow for the artifacts that actually exist:
 
 ```bash
-uv sync --extra dev
-cp .env.example .env
-# Fill OPENAI_API_KEY and Supabase values.
-uv run build-team roster
-uv run build-team run "Design a health endpoint for the service"
+python scripts/validate_repository.py
+python -m unittest discover -s tests -v
+python continuity/five/test_checkpoint_tool.py
+python continuity/six/test_checkpoint_tool.py
+(cd continuity/thirteen && python test_checkpoint_tool.py)
+python -m pytest -q continuity/four/test_checkpoint_tool.py continuity/four/v1.0.1/test_checkpoint_tool.py
+python training/roles/four/1.0.1/validate_package.py
 ```
 
-The runtime uses the OpenAI Agents SDK. Supabase is optional for local inspection commands, but required for durable shared task and memory state.
+The training registry still contains historical Supabase qualification/checkpoint-store bindings. Those values are package provenance, not proof that the provider is current, reachable, or authoritative today. Fresh runtime/provider/authority state must come from the current canonical BT2 system.
 
-## Storage model
-
-The `build_team_2` Supabase schema contains shared tasks, perspectives, decisions, and an append-only collective memory ledger. There are deliberately no per-facet memory tables or private session identifiers.
-
-See `docs/architecture.md`, `docs/personas.md`, and `migrations/001_build_team_2.sql`.
+See `STATUS.md` for the repair/currentness boundary.
